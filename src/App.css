@@ -15,4 +15,12 @@
     color: orange;
 }
 
+.d-recipe-left-column{
+    margin-right: 30px;
+}
+
+.d-recipe-left-el{
+    height: 100%;
+}
+
 /* End recipe item styles */
