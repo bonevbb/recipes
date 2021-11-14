@@ -5,18 +5,25 @@ export default function RecipeItemBig()
         <div className="col-lg-12 col-md-6 d-flex align-items-stretch recipe-item mt-2">
 
             <div className="recipe">
-                <div className="recipe-title pt-2">
+                <div className="recipe-category pt-2">
                     Category: Dinner
                 </div>
                 <div className="recipe-img pb-5 pt-2">
-                    <img src="https://via.placeholder.com/900x400" className="img-fluid" alt="" />
+                    <a href="/">
+                        <img src="https://via.placeholder.com/900x400" className="img-fluid" alt="" />
+                    </a>
                 </div>
 
                 <div className="recipe-info pb-3">
-                    <h5>Lorem, ipsum.</h5>
+                    <a className="recipe-title" href="/">
+                        <span>Lorem, ipsum.</span>
+                    </a>
+                </div>
+
+                <div className="recipe-desc pb-3">
                     <span>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Fuga beatae et quos, tempora, eveniet itaque repellat ipsa nam rem blanditiis temporibus libero neque magnam quidem?
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                        Fuga beatae et quos, tempora, eveniet itaque repellat ipsa nam rem blanditiis temporibus libero neque magnam quidem?
                     </span>
                 </div>
 

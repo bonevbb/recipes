@@ -19,7 +19,7 @@ export default function Header(){
                 <li><a className="nav-link scrollto" href="#today-ideas">Today ideas</a></li>
                 <li><a className="nav-link scrollto" href="#latest-recipes">Latest recipes</a></li>
 
-                <span class="ms-4">|</span>
+                <span className="ms-4">|</span>
 
                 <li><a className="nav-link scrollto" href="/">All recipes</a></li>
                 <li><a className="nav-link scrollto" href="/">Create recipe</a></li>

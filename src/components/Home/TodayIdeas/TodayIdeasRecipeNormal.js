@@ -5,18 +5,19 @@ export default function RecipeItemNormal(props)
         <div className="col-lg-12 col-md-6 d-flex align-items-stretch recipe-item mt-2">
 
             <div className="recipe">
-                <div className="recipe-title pt-2">
+                <div className="recipe-category pt-2">
                     Category: {props.category}
                 </div>
                 <div className="recipe-img pb-3 pt-2">
-                    <img src="https://via.placeholder.com/330x200" className="img-fluid" alt="" />
+                    <a href="/">
+                        <img src="https://via.placeholder.com/330x200" className="img-fluid" alt="" />
+                    </a>
                 </div>
 
                 <div className="recipe-info pb-3">
-                    <h5>Lorem, ipsum.</h5>
-                    {/* <span>
-                    Lorem ipsum dolor sit amet consectetur.
-                    </span> */}
+                    <a className="recipe-title" href="/">
+                        <span>Lorem, ipsum.</span>
+                    </a>
                 </div>
 
                 <div className="recipe-footer pb-5">
