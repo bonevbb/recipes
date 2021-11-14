@@ -3,7 +3,7 @@ function Footer(){
     return (
       <footer id="footer">
 
-        <div className="footer-top">
+        {/* <div className="footer-top">
           <div className="container">
             <div className="row">
     
@@ -17,7 +17,6 @@ function Footer(){
                   <strong>Email:</strong> info@example.com<br/>
                 </p>
               </div>
-    
     
               <div className="col-lg-2 col-md-6 footer-links">
                 <h4>Useful Links</h4>
@@ -52,7 +51,7 @@ function Footer(){
     
             </div>
           </div>
-        </div>
+        </div> */}
     
         <div className="container d-md-flex py-4">
     
