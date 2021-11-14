@@ -2,7 +2,7 @@
 export default function OurMission(){
 
     return (
-        <section id="about" className="about">
+        <section id="our-mission" className="c-our-mission">
           <div className="container">
 
             <div className="section-title">

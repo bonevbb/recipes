@@ -1,11 +1,14 @@
 import OurMission from './OurMission';
-import DailyRecipes from './DailyRecipes';
+import TodayIdeas from './Home/TodayIdeas/TodayIdeas';
+import LatestRecipes from './Home/LatestRecipes/LatestRecipes'
 
 function Main(){
     return (
       <main id="main">
           <OurMission/>
-          <DailyRecipes/>
+          <TodayIdeas/>
+          
+          <LatestRecipes/>
       </main>
     )
 }

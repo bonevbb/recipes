@@ -1,10 +1,10 @@
-import RecipeItemNormal from  "./RecipeItemNormal.js"
-import RecipeItemBig from  "./RecipeItemBig.js"
+import RecipeItemNormal from  "./TodayIdeasRecipeNormal.js"
+import RecipeItemBig from  "./TodayIdeasRecipeBig.js"
 
 export default function DailyRecipes(){
 
     return (
-        <section id="ideas" className="ideas">
+        <section id="today-ideas" className="ideas">
           <div className="container">
 
             <div className="section-title">

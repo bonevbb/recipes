@@ -15,11 +15,17 @@ export default function Header(){
             <nav id="navbar" className="navbar">
               <ul>
                 <li><a className="nav-link scrollto active" href="#hero">Home</a></li>
-                <li><a className="nav-link scrollto" href="#about">All recipes</a></li>
-                <li><a className="nav-link scrollto" href="#ideas">Create recipe</a></li>
-                <li><a className="nav-link scrollto" href="#portfolio">Login</a></li>
-                <li><a className="nav-link scrollto" href="#team">Logout</a></li>
-                <li><a className="nav-link scrollto" href="#pricing">Register</a></li>
+                <li><a className="nav-link scrollto active" href="#our-mission">Our Mission</a></li>
+                <li><a className="nav-link scrollto" href="#today-ideas">Today ideas</a></li>
+                <li><a className="nav-link scrollto" href="#latest-recipes">Latest recipes</a></li>
+
+                <span class="ms-4">|</span>
+
+                <li><a className="nav-link scrollto" href="/">All recipes</a></li>
+                <li><a className="nav-link scrollto" href="/">Create recipe</a></li>
+                <li><a className="nav-link scrollto" href="/">Login</a></li>
+                <li><a className="nav-link scrollto" href="/">Logout</a></li>
+                <li><a className="nav-link scrollto" href="/">Register</a></li>
               </ul>
               <i className="bi bi-list mobile-nav-toggle"></i>
             </nav>
