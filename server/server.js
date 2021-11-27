@@ -1112,7 +1112,9 @@
     				"Mix ingredients",
     				"Cook until done"
     			],
-    			_createdOn: 1613551279012
+    			_createdOn: 1613551279012,
+                desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, cum. Non quaerat repellendus facere ut.",
+                author: "Ivan"
     		},
     		"8f414b4f-ab39-4d36-bedb-2ad69da9c830": {
     			_ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
@@ -1128,7 +1130,9 @@
     				"Mix ingredients",
     				"Cook until done"
     			],
-    			_createdOn: 1613551344360
+    			_createdOn: 1613551344360,
+                desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, cum. Non quaerat repellendus facere ut.",
+                author: "Pesho"
     		},
     		"985d9eab-ad2e-4622-a5c8-116261fb1fd2": {
     			_ownerId: "847ec027-f659-4086-8032-5173e2f9c93a",
@@ -1146,7 +1150,9 @@
     				"Mix ingredients",
     				"Cook until done"
     			],
-    			_createdOn: 1613551388703
+    			_createdOn: 1613551388703,
+                desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, cum. Non quaerat repellendus facere ut.",
+                author: "Pesho"
     		}
     	},
     	comments: {

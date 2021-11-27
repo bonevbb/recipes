@@ -1,42 +1,18 @@
-#logo-text {
-    font-size: 12px;
-    margin: 0px;
-}
-
-/* Begin recipe item styles */
-.recipe-item {
-    /* border: 1px solid black; */
-    -webkit-box-shadow: 7px -4px 40px -13px rgba(0,0,0,0.37);
-    -moz-box-shadow: 7px -4px 40px -13px rgba(0,0,0,0.37);
-    box-shadow: 7px -4px 40px -13px rgba(0,0,0,0.37);
+* {
+    font-family: 'Roboto', sans-serif;
 }
 
 .recipe-rating .checked {
     color: orange;
 }
 
-.d-recipe-left-column{
-    margin-right: 30px;
-}
-
-.d-recipe-left-el{
-    height: 100%;
-}
-
 .recipe-title {
     color: black;
-    font-weight: bold;
-    font-size: 14px;
+    text-decoration: none;
 }
 
 .recipe-title:hover {
     color: black;
-    font-weight: bold;
-    font-size: 14px;
     text-decoration: none;
     border-bottom: 1px solid #075079;
 }
-
-
-
-/* End recipe item styles */
