@@ -4,7 +4,7 @@ export default function HomeCard({
     recipe
 })
 {
-    console.log(recipe);
+    
     return (
         <div className="col">
             <div className="card h-100">

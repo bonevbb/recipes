@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import * as recipeService from '../../services/recipeService';
 
-export default function RecipeDetails({
-    match
-})
+export default function RecipeDetails()
 {
     const [recipe, setRecipe] = useState({});
+    const { recipeId } = useParams();
 
-    useEffect(async () => {
-        let result = await recipeService.getOne(match.params.id);
-        setRecipe(result);
-    }, []);
+    useEffect(() => {
+        recipeService.getOne(recipeId)
+            .then(recipeResult => {
+                setRecipe(recipeResult);
+            })
+    }, [recipeId]);
 
    return(
     <section id="recipe-details">
@@ -41,8 +43,8 @@ export default function RecipeDetails({
                         <h5>Ingredients</h5>
                         
                         <ul className="list-group">
-                            {recipe.ingredients && recipe.ingredients.map((ingredient) => ( 
-                                <div>
+                            {recipe.ingredients && recipe.ingredients.map((ingredient, index) => ( 
+                                <div key={index}>
                                     <li className="list-group-item">
                                         <input className="form-check-input me-1" type="checkbox" value="" aria-label="..."/>
                                         {ingredient}
@@ -58,7 +60,7 @@ export default function RecipeDetails({
                         <hr/>
 
                         {recipe.steps && recipe.steps.map((step, index) => ( 
-                            <div>
+                            <div key={index}>
                                 <h6>
                                     <i className="fas fa-check-square text-primary"></i>
                                     <span className="ms-2">step {++index}</span>
