@@ -11,6 +11,7 @@ export default function Login()
     const navigate = useNavigate();
 
     const onLoginHandler = (e) => {
+        
         e.preventDefault();
 
         let formData = new FormData(e.currentTarget);
@@ -18,14 +19,11 @@ export default function Login()
         let email = formData.get('email');
         let password = formData.get('password');
 
-        console.log(email);
-        console.log(password);
-
         authService.login(email, password)
             .then((authData) => {
                 login(authData);
 
-                navigate('/catalog');
+                navigate('/');
             })
             .catch(err => {
                 // TODO: show notification
@@ -37,7 +35,6 @@ export default function Login()
         <section id="login-page" className="login">
             <main className="form-signin">
                 <form id="login-form" onSubmit={onLoginHandler} method="POST">
-
                     <h1 className="h3 mb-3 fw-normal">Login</h1>
 
                     <div className="form-floating mb-2">
@@ -49,13 +46,7 @@ export default function Login()
                         <label htmlFor="floatingPassword">Password</label>
                     </div>
 
-                    {/* <div className="checkbox mb-3">
-                        <label>
-                            <input type="checkbox" value="remember-me"/> Remember me
-                        </label>
-                    </div> */}
                     <button className="w-100 btn btn-lg btn-primary" type="submit">Login</button>
-
                 </form>
             </main>
            

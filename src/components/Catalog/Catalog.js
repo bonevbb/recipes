@@ -20,7 +20,7 @@ export default function Catalog(){
             <div className="card">
 
                 <div className="card-header">
-                    Catalog
+                    All recipes
                 </div>
 
                 <div className="card-body">

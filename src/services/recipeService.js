@@ -11,11 +11,8 @@ export const getAll = async () => {
 export const getOne = async(recipeId) => {
     let response = await fetch(`${baseUrl}/recipes/${recipeId}`);
     let result = await response.json();
-    // let result = Object.values(recipe);
     
     return result; 
-    // return fetch(`${baseUrl}/recipes/${recipeId}`)
-    //     .then(res => res.json())
 };
 
 export const getLatest = async () => {
