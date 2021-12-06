@@ -1,7 +1,7 @@
 import { useState, useEffect} from 'react';
 import * as recipeService from '../../services/recipeService';
 
-import CatalogCard from "../CatalogCard"
+import CatalogCard from "../BigCard"
 
 export default function Catalog(){
 

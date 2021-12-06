@@ -1,0 +1,10 @@
+.edit-recipe-page{
+    width: 100%;
+    max-width: 50%;
+    padding: 15px;
+    margin: auto;
+}
+
+.edit-recipe-textarea{
+    height: 100px !important;
+}

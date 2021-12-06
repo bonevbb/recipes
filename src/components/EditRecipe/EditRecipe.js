@@ -1,13 +1,16 @@
-import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useContext, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { AuthContext } from '../../contexts/AuthContext';
 import * as recipeService from '../../services/recipeService';
 
-import './CreateRecipe.css';
+import './EditRecipe.css';
 
-export default function CreateRecipe() 
+export default function EditRecipe() 
 {
+    const { recipeId } = useParams();
+    const [recipe, setRecipe] = useState({});
+
     const [ingredients, setIngredients] = useState([]);
     const [ingredient, setIngredient] = useState('');
    
@@ -16,6 +19,25 @@ export default function CreateRecipe()
 
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        recipeService.getOne(recipeId)
+            .then(recipeResult => {
+                setRecipe(recipeResult);
+                setIngredients(recipeResult.ingredients);
+                setSteps(recipeResult.steps);
+            })
+
+    }, [recipeId]);
+
+    // useEffect(() => {
+    //     console.log(recipe);
+        // setIngredients(recipe.ingredients);
+    // }, []);
+
+    // useEffect(() => {
+        // setSteps(recipe.ingredients);
+    // }, []);
    
     const onRecipeCreate = (e) => {
 
@@ -60,22 +82,39 @@ export default function CreateRecipe()
         setStep('');
     }
 
+    function onDeleteIngredient(e, id){
+        e.stopPropagation();
+        setIngredients(oldIngredients => oldIngredients.filter((ingredient, index) => index !== id))
+    }
+
+    function onDeleteStep(e, id){
+        e.stopPropagation();
+        setSteps(oldSteps => oldSteps.filter((step, index) => index !== id))
+    }
+
     return (
-        <section className="add-recipe-page">
+        <section className="edit-recipe-page">
             <h5>Add recipe</h5>
             <form onSubmit={onRecipeCreate}>
                 <div className="form-floating mb-3">
-                    <input type="text" className="form-control" id="name" name="name" placeholder="spaghetti bolognese" />
+                    <input type="text" className="form-control" id="name" name="name" placeholder="spaghetti bolognese" defaultValue={recipe.name}/>
                     <label htmlFor="name">Recipe Name</label>
                 </div>
 
                 <div className="form-floating mb-3">
-                    <textarea className="form-control" placeholder="Lorem ipsum dolor sit amet." name="desc" id="desc"></textarea>
+                    <textarea className="form-control edit-recipe-textarea" placeholder="Lorem ipsum dolor sit amet." name="desc" id="desc" defaultValue={recipe.desc}></textarea>
                     <label htmlFor="desc">Description</label>
                 </div>
 
                 <div className="form-floating mb-3">
-                    <input type="text" className="form-control" id="img" name="img" placeholder="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.slimmingeats.com%2Fblog%2Fspaghetti-bolognese&psig=AOvVaw1Ui8LogUtY5LkEANQFQMFm&ust=1638708213833000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCPjFq5GWyvQCFQAAAAAdAAAAABAJ" />
+                    <input 
+                        type="text" 
+                        className="form-control" 
+                        id="img" 
+                        name="img" 
+                        placeholder="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.slimmingeats.com%2Fblog%2Fspaghetti-bolognese&psig=AOvVaw1Ui8LogUtY5LkEANQFQMFm&ust=1638708213833000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCPjFq5GWyvQCFQAAAAAdAAAAABAJ" 
+                        defaultValue={recipe.img}
+                    />
                     <label htmlFor="img">Image Url</label>
                 </div>
 
@@ -93,7 +132,10 @@ export default function CreateRecipe()
                         <ul className="list-group">
                             {
                                 ingredients.map((ingredientVal, index) =>
-                                    <li key={index} className="list-group-item">{ingredientVal}</li>
+                                    <li key={index} className="list-group-item">
+                                        {ingredientVal}
+                                        <button onClick={(e) => onDeleteIngredient(e, index)} type="button" className="btn-close" aria-label="Close"></button>
+                                    </li>
                                 )
                             }
                             
@@ -115,8 +157,13 @@ export default function CreateRecipe()
                     ? <div className="list-ingrediets mb-3">
                         <ul className="list-group">
                             {
-                                steps.map((stepVal, index) =>
-                                    <li key={index} className="list-group-item">{stepVal}</li>
+                                steps.map((stepVal, index) => 
+                           
+                                        <li key={index} className="list-group-item">
+                                            {stepVal}
+                                            <button onClick={(e) => onDeleteStep(e, index)} type="button" className="btn-close" aria-label="Close"></button>
+                                        </li>
+                                        
                                 )
                             }
                             
@@ -126,7 +173,7 @@ export default function CreateRecipe()
                 }
 
                 <div className="form-floating mb-3">
-                    <input type="text" className="form-control" id="author" name="author" placeholder="Pesho" />
+                    <input type="text" className="form-control" id="author" name="author" placeholder="Pesho" defaultValue={recipe.author}/>
                     <label htmlFor="author">Author</label>
                 </div>
 

@@ -8,14 +8,14 @@ export default function CatalogCard({
         <div className="card mb-3">
             <div className="row g-0">
                 <div className="col-md-4">
-                    <Link to={`/recipes/${recipe._id}`}>
+                    <Link to={`/details/${recipe._id}`}>
                         <img src={recipe.img ? recipe.img : 'https://via.placeholder.com/400x300'} className="img-fluid rounded-start" alt="..." style={{width: "400px", height: "300px"}}/>
                     </Link>
                 </div>
                 <div className="col-md-8">
                 <div className="card-body">
                     <h5 className="card-title">
-                        <Link to={`/recipes/${recipe._id}`} className="recipe-title">
+                        <Link to={`/details/${recipe._id}`} className="recipe-title">
                             {recipe.name}
                         </Link>
                     </h5>

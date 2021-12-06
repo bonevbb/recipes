@@ -9,14 +9,14 @@ export default function HomeCard({
         <div className="col">
             <div className="card h-100">
 
-                <Link to={`/recipes/${recipe._id}`}>
+                <Link to={`/details/${recipe._id}`}>
                     <img src={recipe.img ? recipe.img : 'https://via.placeholder.com/240'} className="card-img-top" alt="..."/>
                 </Link>
                 
                 <div className="card-body">
 
                     <h5 className="card-title">
-                        <Link to={`/recipes/${recipe._id}`} className="recipe-title">{recipe.name}</Link>
+                        <Link to={`/details/${recipe._id}`} className="recipe-title">{recipe.name}</Link>
                     </h5>
 
                     <p className="card-text">{recipe.desc}</p>

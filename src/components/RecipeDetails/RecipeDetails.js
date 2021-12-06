@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import * as recipeService from '../../services/recipeService';
 
 import { AuthContext } from '../../contexts/AuthContext';
@@ -29,6 +29,22 @@ export default function RecipeDetails()
             });
     };
 
+    const userOwnerButtons = (
+        <div className="float-end">
+            <Link key={1} type="button" className="btn btn-primary btn-sm me-1" to={`/edit/${recipeId}`}>Edit</Link>
+            <button key={2} type="button" className="btn btn-secondary btn-sm" onClick={deleteHandler}>Delete</button>
+        </div>
+    );
+
+    const likeButton = (
+        <div className="float-end">
+            <button type="button" className="btn btn-primary btn-sm">
+                <i className="fas fa-thumbs-up like-button-icon"></i>
+                Like
+            </button>
+        </div>
+    )
+
    return(
     <section id="recipe-details">
 
@@ -37,18 +53,9 @@ export default function RecipeDetails()
                 Recipe details
 
                 {
-                    user._id && (user._id === recipe._ownerId 
-
-                    ? <div className="float-end">
-                        <button key={1} type="button" className="btn btn-primary btn-sm me-1">Edit</button>
-                        <button key={2} type="button" className="btn btn-secondary btn-sm" onClick={deleteHandler}>Delete</button>
-                    </div>
-                    : <div className="float-end">
-                        <button type="button" className="btn btn-primary btn-sm">
-                            <i className="fas fa-thumbs-up like-button-icon"></i>
-                            Like
-                            </button>
-                    </div>
+                    user._id && (user._id === recipe._ownerId
+                        ? userOwnerButtons
+                        : likeButton
                     )
                 }
                 

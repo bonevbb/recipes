@@ -24,8 +24,7 @@ export const getLatest = async () => {
 }
 
 export const create = async (recipeData, token) => {
-    console.log(token);
-
+    
     let response = await fetch(`${baseUrl}/recipes`, {
         method: 'POST',
         headers: {
@@ -50,10 +49,12 @@ export const userRecipes = async (userId) => {
 }
 
 export const destroy = (recipeId, token) => {
+
     return fetch(`${baseUrl}/recipes/${recipeId}`, {
         method: 'DELETE',
         headers: {
             'X-Authorization': token
         }
     }).then(res => res.json());
+
 }

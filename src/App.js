@@ -13,6 +13,7 @@ import useLocalStorage from './hooks/useLocalStorage';
 import Register from './components/Register';
 import CreateRecipe from './components/CreateRecipe';
 import UserRecipes from './components/UserRecipes';
+import EditRecipe from './components/EditRecipe';
 
 const initialUser = {
   _id: '',
@@ -35,7 +36,7 @@ function App() {
   return (
     <AuthContext.Provider value={{user, login, logout}}>
       <div className="container">
-        
+          
           <Header/>
 
           <Routes>
@@ -44,7 +45,8 @@ function App() {
               <Route path="/create-recipe" element={<CreateRecipe/>} />
               <Route path="/login" element={<Login/>} />
               <Route path="/register" element={<Register/>} />
-              <Route path="/recipes/:recipeId" element={<RecipeDetails/>} />
+              <Route path="/details/:recipeId" element={<RecipeDetails/>} />
+              <Route path="/edit/:recipeId" element={<EditRecipe/>} />
               <Route path="/my-recipes" element={<UserRecipes/>} />
           </Routes>
 
