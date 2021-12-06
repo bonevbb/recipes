@@ -1,11 +1,17 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import * as recipeService from '../../services/recipeService';
+
+import { AuthContext } from '../../contexts/AuthContext';
+
+import "./RecipeDetails.css";
 
 export default function RecipeDetails()
 {
+    const navigate = useNavigate();
     const [recipe, setRecipe] = useState({});
     const { recipeId } = useParams();
+    const { user } = useContext(AuthContext);
 
     useEffect(() => {
         recipeService.getOne(recipeId)
@@ -14,19 +20,45 @@ export default function RecipeDetails()
             })
     }, [recipeId]);
 
+    const deleteHandler = (e) => {
+        e.preventDefault();
+
+        recipeService.destroy(recipeId, user.accessToken)
+            .then(() => {
+                navigate('/');
+            });
+    };
+
    return(
     <section id="recipe-details">
 
         <div className="card">
             <div className="card-header">
                 Recipe details
+
+                {
+                    user._id && (user._id === recipe._ownerId 
+
+                    ? <div className="float-end">
+                        <button key={1} type="button" className="btn btn-primary btn-sm me-1">Edit</button>
+                        <button key={2} type="button" className="btn btn-secondary btn-sm" onClick={deleteHandler}>Delete</button>
+                    </div>
+                    : <div className="float-end">
+                        <button type="button" className="btn btn-primary btn-sm">
+                            <i className="fas fa-thumbs-up like-button-icon"></i>
+                            Like
+                            </button>
+                    </div>
+                    )
+                }
+                
             </div>
 
             <div className="card-body">
                 <div className="row">
                     <h2>{recipe.name}</h2>
                     <div className="col-lg-4">
-                        <img src="https://via.placeholder.com/400" className="card-img-top" alt="..." style={{width: "400px"}}/>
+                        <img src={recipe.img ? recipe.img : 'https://via.placeholder.com/400'} className="card-img-top" alt="..." style={{width: "400px"}}/>
                     </div>
                     <div className="col-lg-4">
                         <h5>Info</h5>

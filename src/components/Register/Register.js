@@ -30,7 +30,7 @@ export default function Register()
             <main className="form-signin">
                 <form id="login-form" onSubmit={registerSubmitHandler} method="POST">
 
-                    <h1 className="h3 mb-3 fw-normal">Login</h1>
+                    <h1 className="h3 mb-3 fw-normal">Register</h1>
 
                     <div className="form-floating mb-2">
                         <input type="email" className="form-control" id="email" name="email" placeholder="name@example.com"/>
@@ -40,12 +40,11 @@ export default function Register()
                         <input type="password" className="form-control" id="password" name="password" placeholder="Password"/>
                         <label htmlFor="floatingPassword">Password</label>
                     </div>
+                    <div className="form-floating mb-2">
+                        <input type="password" className="form-control" id="repeat-pass" name="confirm-pass" placeholder="Repeat Password"/>
+                        <label htmlFor="floatingPassword">Repeat Password</label>
+                    </div>
 
-                    {/* <div className="checkbox mb-3">
-                        <label>
-                            <input type="checkbox" value="remember-me"/> Remember me
-                        </label>
-                    </div> */}
                     <button className="w-100 btn btn-lg btn-primary" type="submit">Login</button>
 
                 </form>

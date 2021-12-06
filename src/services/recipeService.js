@@ -22,3 +22,38 @@ export const getLatest = async () => {
     
     return result; 
 }
+
+export const create = async (recipeData, token) => {
+    console.log(token);
+
+    let response = await fetch(`${baseUrl}/recipes`, {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+            'X-Authorization': token,
+        },
+        body: JSON.stringify({...recipeData})
+    });
+
+    let result = await response.json();
+
+    return result;
+
+};
+
+export const userRecipes = async (userId) => {
+    let response = await fetch(`${baseUrl}/recipes?where=_ownerId%3D"${userId}"`);
+    let recipes = await response.json();
+    let result = Object.values(recipes)
+    
+    return result; 
+}
+
+export const destroy = (recipeId, token) => {
+    return fetch(`${baseUrl}/recipes/${recipeId}`, {
+        method: 'DELETE',
+        headers: {
+            'X-Authorization': token
+        }
+    }).then(res => res.json());
+}

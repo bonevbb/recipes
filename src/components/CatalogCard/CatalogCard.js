@@ -9,7 +9,7 @@ export default function CatalogCard({
             <div className="row g-0">
                 <div className="col-md-4">
                     <Link to={`/recipes/${recipe._id}`}>
-                        <img src="https://via.placeholder.com/450x300" className="img-fluid rounded-start" alt="..." style={{width: "450px", height: "273px"}}/>
+                        <img src={recipe.img ? recipe.img : 'https://via.placeholder.com/400x300'} className="img-fluid rounded-start" alt="..." style={{width: "400px", height: "300px"}}/>
                     </Link>
                 </div>
                 <div className="col-md-8">

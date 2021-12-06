@@ -17,7 +17,7 @@ export default function Header(){
         authService.logout(user.accessToken)
             .then(() => {
                 logout();
-                navigate('/');
+                navigate('/login');
         });
     }
 
@@ -44,18 +44,24 @@ export default function Header(){
         <>
             <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                     <li>
-                        <NavLink to="/catalog" className="nav-link px-2 link-dark">All recipes</NavLink>
+                        <NavLink 
+                        className={({ isActive }) => isActive ? "nav-link px-2 link-dark active-nav-link" : "nav-link px-2 link-dark"}
+                        to="/catalog">All recipes</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/create-recipe" className="nav-link px-2 link-dark">Create recipe</NavLink>
+                        <NavLink 
+                        className={({ isActive }) => isActive ? "nav-link px-2 link-dark active-nav-link" : "nav-link px-2 link-dark"}
+                        to="/create-recipe">Add recipe</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/create-recipe" className="nav-link px-2 link-dark">My recipes</NavLink>
+                        <NavLink 
+                        className={({ isActive }) => isActive ? "nav-link px-2 link-dark active-nav-link" : "nav-link px-2 link-dark"}
+                        to="/my-recipes">My recipes</NavLink>
                     </li>
             </ul>
             <div className="col-md-4 text-end">
                 <span className="me-2">Welcome, {user.email}</span>
-                <NavLink className="btn btn-outline-info me-2" to="/logout" onClick={onLogoutHandler}>Logout</NavLink>
+                <NavLink className="btn btn-outline-primary me-2" to="/logout" onClick={onLogoutHandler}>Logout</NavLink>
             </div>
         </>
     );

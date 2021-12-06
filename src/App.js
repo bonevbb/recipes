@@ -11,6 +11,8 @@ import Login from './components/Login';
 import { AuthContext } from './contexts/AuthContext';
 import useLocalStorage from './hooks/useLocalStorage';
 import Register from './components/Register';
+import CreateRecipe from './components/CreateRecipe';
+import UserRecipes from './components/UserRecipes';
 
 const initialUser = {
   _id: '',
@@ -39,10 +41,11 @@ function App() {
           <Routes>
               <Route path="/" exact element={<Home/>} />
               <Route path="/catalog" exact element={<Catalog/>} />
-              {/* <Route path="/create-recipe" element={CreateRecipe} /> */}
+              <Route path="/create-recipe" element={<CreateRecipe/>} />
               <Route path="/login" element={<Login/>} />
               <Route path="/register" element={<Register/>} />
               <Route path="/recipes/:recipeId" element={<RecipeDetails/>} />
+              <Route path="/my-recipes" element={<UserRecipes/>} />
           </Routes>
 
         <Footer />
