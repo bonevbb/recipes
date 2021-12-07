@@ -1,14 +1,13 @@
-import { useContext } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 
-import { AuthContext } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 import * as authService from '../../services/authService';
 
 import './Header.css';
 
 export default function Header(){
 
-    const { user, logout } = useContext(AuthContext);
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
 
     const onLogoutHandler = (e) => {

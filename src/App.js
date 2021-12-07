@@ -8,33 +8,20 @@ import Home from './components/Home';
 import Catalog from './components/Catalog';
 import RecipeDetails from './components/RecipeDetails';
 import Login from './components/Login';
-import { AuthContext } from './contexts/AuthContext';
-import useLocalStorage from './hooks/useLocalStorage';
+import { AuthProvider } from './contexts/AuthContext';
 import Register from './components/Register';
 import CreateRecipe from './components/CreateRecipe';
 import UserRecipes from './components/UserRecipes';
 import EditRecipe from './components/EditRecipe';
 
-const initialUser = {
-  _id: '',
-  email: '',
-  accessToken: '',
-};
+
 
 function App() {
 
-  const [user, setUser] = useLocalStorage('user', initialUser);
-
-  const login = (authData) => {
-    setUser(authData);
-  }
-
-  const logout = () => {
-    setUser(initialUser);
-  };
+  
 
   return (
-    <AuthContext.Provider value={{user, login, logout}}>
+    <AuthProvider>
       <div className="container">
           
           <Header/>
@@ -53,7 +40,7 @@ function App() {
         <Footer />
         
       </div>
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 

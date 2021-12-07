@@ -1,13 +1,13 @@
-import { useState, useEffect, useContext} from 'react';
+import { useState, useEffect} from 'react';
 import * as recipeService from '../../services/recipeService';
 import UserRecipeCard from "../DefaultCard"
 
-import { AuthContext } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function UserRecipes(){
 
     const [recipes, setRecipes] = useState([]);
-    const { user } = useContext(AuthContext);
+    const { user } = useAuth();
 
     let userId = user._id;
 

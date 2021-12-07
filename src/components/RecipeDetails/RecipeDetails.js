@@ -1,8 +1,8 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import * as recipeService from '../../services/recipeService';
 
-import { AuthContext } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 import "./RecipeDetails.css";
 
@@ -11,7 +11,7 @@ export default function RecipeDetails()
     const navigate = useNavigate();
     const [recipe, setRecipe] = useState({});
     const { recipeId } = useParams();
-    const { user } = useContext(AuthContext);
+    const { user } = useAuth();
 
     useEffect(() => {
         recipeService.getOne(recipeId)

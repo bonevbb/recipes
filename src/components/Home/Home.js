@@ -36,7 +36,7 @@ export default function Home(){
               <div className="row g-4 py-5 row-cols-1 row-cols-lg-3">
                 <div className="feature col">
                     <div className="feature-icon text-primary">
-                        <i class="fas fa-2x fa-check-square"></i>
+                        <i className="fas fa-2x fa-check-square"></i>
                     </div>
                     
                     <h4>Proven recipes</h4>
@@ -44,14 +44,14 @@ export default function Home(){
                 </div>
                 <div className="feature col">
                     <div className="feature-icon text-primary">
-                        <i class="fas fa-2x fa-book-open"></i>
+                        <i className="fas fa-2x fa-book-open"></i>
                     </div>
                     <h4>What to cook today</h4>
                     <p>Don't know what to cook today? We will make suggestions to you for breakfast, lunch and dinner.</p>
                 </div>
                 <div className="feature col">
                     <div className="feature-icon text-primary">
-                        <i class="fab fa-2x fa-wpforms"></i>
+                        <i className="fab fa-2x fa-wpforms"></i>
                     </div>
                     <h4>Fewer discarded products</h4>
                     <p>According to your chosen products or cooking time, we will generate a list of recipes to cook.</p>

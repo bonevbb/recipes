@@ -1,7 +1,7 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { AuthContext } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 import * as recipeService from '../../services/recipeService';
 
 import './EditRecipe.css';
@@ -17,7 +17,7 @@ export default function EditRecipe()
     const [steps, setSteps] = useState([]);
     const [step, setStep] = useState('');
 
-    const { user } = useContext(AuthContext);
+    const { user } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
