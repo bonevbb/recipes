@@ -28,7 +28,7 @@ export default function CatalogCard({
                     <div>
                     <div className="float-start">
                         <p className="card-text">
-                        <small className="text-muted">Аuthor: <a href="/">{recipe.author}</a></small>
+                        <small className="text-muted">Аuthor: <span>{recipe.author}</span></small>
                         </p>
                     </div>
                     <div className="float-end recipe-rating">
