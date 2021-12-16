@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 export default function CatalogCard({
     recipe
 }){
-
+    
     return (
-        <div className="card mb-3">
+        <div className="card mb-3 recipe-card">
             <div className="row g-0">
                 <div className="col-md-4">
                     <Link to={`/details/${recipe._id}`}>
