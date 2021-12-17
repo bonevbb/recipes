@@ -29,15 +29,6 @@ export default function EditRecipe()
             })
 
     }, [recipeId]);
-
-    // useEffect(() => {
-    //     console.log(recipe);
-        // setIngredients(recipe.ingredients);
-    // }, []);
-
-    // useEffect(() => {
-        // setSteps(recipe.ingredients);
-    // }, []);
    
     const onRecipeCreate = (e) => {
 
@@ -49,7 +40,8 @@ export default function EditRecipe()
         let imageUrl        = formData.get('img');
         let author          = formData.get('author');
 
-        recipeService.create({
+        recipeService.update(recipeId,
+        {
             name,
             desc: description,
             img: imageUrl,
