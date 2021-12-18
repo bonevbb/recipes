@@ -74,7 +74,7 @@ export const userRecipes = async (userId) => {
     let result = Object.values(recipes)
     
     return result; 
-}
+};
 
 export const destroy = async (recipeId, token) => {
 
@@ -89,4 +89,4 @@ export const destroy = async (recipeId, token) => {
     let result = await response.json();
 
     return result;
-}
+};

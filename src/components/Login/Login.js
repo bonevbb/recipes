@@ -45,7 +45,7 @@ export default function Login()
                         <label htmlFor="floatingPassword">Password</label>
                     </div>
 
-                    <button className="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+                    <button className="w-100 btn btn-lg recipe-btn" type="submit">Login</button>
                 </form>
             </main>
            

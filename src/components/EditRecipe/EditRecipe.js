@@ -115,7 +115,7 @@ export default function EditRecipe()
                         <input type="text" className="form-control" placeholder="500 g Ingredient 1" onChange={onChangeIngrementHandler} value={ingredient}/>
                         <label htmlFor="ingredient">Add ingredient</label>
                     </div>
-                    <button className="btn btn-outline-primary" onClick={onClickIngrementHandler} type="button" id="button-addon2">Add ingredient</button>
+                    <button className="btn recipe-btn-outline" onClick={onClickIngrementHandler} type="button" id="button-addon2">Add ingredient</button>
                 </div>
 
                 <h5>Ingredients</h5>
@@ -126,7 +126,7 @@ export default function EditRecipe()
                                 ingredients.map((ingredientVal, index) =>
                                     <li key={index} className="list-group-item">
                                         {ingredientVal}
-                                        <button onClick={(e) => onDeleteIngredient(e, index)} type="button" className="btn-close" aria-label="Close"></button>
+                                        <button onClick={(e) => onDeleteIngredient(e, index)} type="button" className="btn-close float-end" aria-label="Close"></button>
                                     </li>
                                 )
                             }
@@ -141,7 +141,7 @@ export default function EditRecipe()
                         <input type="text" className="form-control" placeholder="Mix the ingredients" onChange={onChangeStepHandler} value={step}/>
                         <label htmlFor="step">Add step</label>
                     </div>
-                    <button className="btn btn-outline-primary" onClick={onClickStepHandler} type="button" id="button-addon2">Add step</button>
+                    <button className="btn recipe-btn-outline" onClick={onClickStepHandler} type="button" id="button-addon2">Add step</button>
                 </div>
 
                 <h5>Steps</h5>
@@ -153,7 +153,7 @@ export default function EditRecipe()
                            
                                         <li key={index} className="list-group-item">
                                             {stepVal}
-                                            <button onClick={(e) => onDeleteStep(e, index)} type="button" className="btn-close" aria-label="Close"></button>
+                                            <button onClick={(e) => onDeleteStep(e, index)} type="button" className="btn-close float-end" aria-label="Close"></button>
                                         </li>
                                         
                                 )
@@ -169,7 +169,7 @@ export default function EditRecipe()
                     <label htmlFor="author">Author</label>
                 </div>
 
-                <button type="submit" className="btn btn-primary">Add</button>
+                <button type="submit" className="btn recipe-btn">Save</button>
             </form>
         </section>
     );

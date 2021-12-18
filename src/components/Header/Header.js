@@ -33,8 +33,8 @@ export default function Header(){
                     </li>
             </ul>
             <div className="col-md-4 text-end">
-                <NavLink className="btn btn-outline-primary me-2" to="/login">Login</NavLink>
-                <NavLink to="/register" className="btn btn-primary" >Register</NavLink>
+                <NavLink className="btn recipe-btn-outline me-2" to="/login">Login</NavLink>
+                <NavLink to="/register" className="btn recipe-btn" >Register</NavLink>
             </div>
         </>
     );
@@ -60,7 +60,7 @@ export default function Header(){
             </ul>
             <div className="col-md-4 text-end">
                 <span className="me-2">Welcome, {user.email}</span>
-                <NavLink className="btn btn-outline-primary me-2" to="/logout" onClick={onLogoutHandler}>Logout</NavLink>
+                <NavLink className="btn recipe-btn-outline me-2" to="/logout" onClick={onLogoutHandler}>Logout</NavLink>
             </div>
         </>
     );
@@ -69,9 +69,9 @@ export default function Header(){
         <section id="app-header">
             <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
                 
-                <NavLink className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" to="/">
-                    <i className="fas fa-2x fa-mortar-pestle text-primary"></i>
-                    <span className="ms-1 pt-4 text-uppercase text-primary">
+                <NavLink className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none pb-3" to="/">
+                    <i className="fas fa-2x fa-mortar-pestle text-color"></i>
+                    <span className="ms-1 pt-4 text-uppercase text-color">
                         <h5>React recipes</h5>
                     </span>
                 </NavLink>

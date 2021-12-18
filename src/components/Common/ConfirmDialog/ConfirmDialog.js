@@ -9,7 +9,7 @@ export default function ConfirmDialog({
 }){
 
 
-    const test = (
+    const dialog = (
         <SweetAlert
             custom
             showCancel
@@ -28,6 +28,6 @@ export default function ConfirmDialog({
     );
     
     return (
-        showDialog ? test : ''
+        showDialog ? dialog : ''
     );
 }

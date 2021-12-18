@@ -84,7 +84,7 @@ export default function CreateRecipe()
                         <input type="text" className="form-control" placeholder="500 g Ingredient 1" onChange={onChangeIngrementHandler} value={ingredient}/>
                         <label htmlFor="ingredient">Add ingredient</label>
                     </div>
-                    <button className="btn btn-outline-primary" onClick={onClickIngrementHandler} type="button" id="button-addon2">Add ingredient</button>
+                    <button className="btn recipe-btn-outline" onClick={onClickIngrementHandler} type="button" id="button-addon2">Add ingredient</button>
                 </div>
 
                 <h5>Ingredients</h5>
@@ -107,7 +107,7 @@ export default function CreateRecipe()
                         <input type="text" className="form-control" placeholder="Mix the ingredients" onChange={onChangeStepHandler} value={step}/>
                         <label htmlFor="step">Add step</label>
                     </div>
-                    <button className="btn btn-outline-primary" onClick={onClickStepHandler} type="button" id="button-addon2">Add step</button>
+                    <button className="btn recipe-btn-outline" onClick={onClickStepHandler} type="button" id="button-addon2">Add step</button>
                 </div>
 
                 <h5>Steps</h5>
@@ -130,7 +130,7 @@ export default function CreateRecipe()
                     <label htmlFor="author">Author</label>
                 </div>
 
-                <button type="submit" className="btn btn-primary">Add</button>
+                <button type="submit" className="btn recipe-btn">Add</button>
             </form>
         </section>
     );

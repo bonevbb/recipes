@@ -16,8 +16,6 @@ import EditRecipe from './components/EditRecipe';
 
 function App() {
 
-  
-
   return (
     <AuthProvider>
       <div className="container">
@@ -40,6 +38,7 @@ function App() {
       </div>
     </AuthProvider>
   );
+  
 }
 
 export default App;

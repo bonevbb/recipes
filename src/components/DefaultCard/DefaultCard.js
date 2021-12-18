@@ -21,15 +21,11 @@ export default function HomeCard({
 
                     <p className="card-text">{recipe.desc}</p>
 
-                    <div className="recipe-rating">
-                        <span className="fa fa-star checked"></span>
-                        <span className="fa fa-star checked"></span>
-                        <span className="fa fa-star checked"></span>
-                        <span className="fa fa-star"></span>
-                        <span className="fa fa-star"></span>
-                    <span className="ms-2">3.5</span>
-
-                </div>
+                    {/* <div className="recipe-likes">
+                        <span className='me-2'><i className="fas fa-thumbs-up"></i></span>
+                        <span className='pt-2'>Likes: </span>
+                        <span className="pt-2">3.5 </span>
+                    </div> */}
                 </div>
                 <div className="card-footer">
                 <div className="float-start">

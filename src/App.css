@@ -1,5 +1,8 @@
 * {
     font-family: 'Roboto', sans-serif;
+    border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 .recipe-rating .checked {
@@ -19,4 +22,32 @@
 
 .recipe-card:hover {
     transform: scale(0.97);
+}
+
+.text-color {
+    color: #ff9900;
+}
+
+.recipe-btn {
+    color: #fff;
+    background-color: #ff9900 !important;
+    border-color: #ff9900 !important;
+}
+
+.recipe-btn-outline {
+    color: #ff9900;
+    border-color: #ff9900;
+}
+
+.nav-link:hover{
+    color: #ff9900;
+}
+
+.recipe-btn:hover .recipe-btn-outline:hover, button:focus
+{
+    color:#000;
+}
+
+.btn:focus{
+    box-shadow: none !important;
 }

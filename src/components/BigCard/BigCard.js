@@ -26,19 +26,17 @@ export default function CatalogCard({
                     </p>
                     
                     <div>
-                    <div className="float-start">
-                        <p className="card-text">
-                        <small className="text-muted">Аuthor: <span>{recipe.author}</span></small>
-                        </p>
-                    </div>
-                    <div className="float-end recipe-rating">
-                        <span className="fa fa-star checked"></span>
-                        <span className="fa fa-star checked"></span>
-                        <span className="fa fa-star checked"></span>
-                        <span className="fa fa-star"></span>
-                        <span className="fa fa-star"></span>
-                        <span className="ms-2">3.5</span>
-                    </div>
+                        <div className="float-start">
+                            <p className="card-text">
+                            <small className="text-muted">Аuthor: <span>{recipe.author}</span></small>
+                            </p>
+                        </div>
+                        {/* <div className="recipe-likes float-end text-color">
+                            <span className='me-2'><i className="fas fa-thumbs-up"></i></span>
+                            <span className='pt-2'>Likes: </span>
+                            <span className="pt-2">3.5 </span>
+                        </div> */}
+
                     </div>
                     
                 </div>

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import * as recipeService from '../../services/recipeService';
-import { useAuth } from '../../contexts/AuthContext';
 
+import * as recipeService from '../../services/recipeService';
+import * as likeService from '../../services/likeService';
+import { useAuth } from '../../contexts/AuthContext';
 import ConfirmDialog from '../Common/ConfirmDialog';
 
 import "./RecipeDetails.css";
@@ -11,6 +12,8 @@ export default function RecipeDetails()
 {
     const navigate = useNavigate();
     const [recipe, setRecipe] = useState({});
+    const [likes, setLikes] = useState([]);
+    const [userLiked, setUserLiked] = useState(false);
     const { recipeId } = useParams();
     const { user } = useAuth();
 
@@ -22,7 +25,21 @@ export default function RecipeDetails()
                 setRecipe(recipeResult);
             })
     }, [recipeId]);
-    
+
+    useEffect(() => {
+        likeService.recipeLikes(recipeId)
+            .then(likesResult => {
+
+                let userLikedData = likesResult.filter(like => like._ownerId === user._id)
+                let isLiked = userLikedData.length > 0;
+                
+                setUserLiked(isLiked);
+                setLikes(likesResult);
+
+            })
+    }, [recipeId, user._id]);
+
+
     const openDeleteModal = () => {
         setShowDeleteDialog(true);
     };
@@ -42,16 +59,31 @@ export default function RecipeDetails()
 
     };
 
+    const likeButtonClick = () => {
+
+        likeService.create({
+            "like": true,
+            "recipeId": recipeId
+        }, user.accessToken)
+        .then(result => {
+            navigate('/');
+        });
+
+    }
+
     const userOwnerButtons = (
         <div className="float-end">
-            <Link key={1} type="button" className="btn btn-primary btn-sm me-1" to={`/edit/${recipeId}`}>Edit</Link>
+            <Link key={1} type="button" className="btn recipe-btn btn-sm me-1" to={`/edit/${recipeId}`}>Edit</Link>
             <button key={2} type="button" className="btn btn-secondary btn-sm" onClick={openDeleteModal}>Delete</button>
         </div>
     );
 
     const likeButton = (
         <div className="float-end">
-            <button type="button" className="btn btn-primary btn-sm">
+            <span className='pt-2'>Likes: </span>
+            <span className="pt-2">{likes.length} </span>
+          
+            <button type="button" className="btn recipe-btn btn-sm ms-2" onClick={likeButtonClick}>
                 <i className="fas fa-thumbs-up like-button-icon"></i>
                 Like
             </button>
@@ -74,12 +106,13 @@ export default function RecipeDetails()
                     Recipe details
 
                     {
-                        user._id && (user._id === recipe._ownerId
+                        user._id && (user._id === recipe._ownerId)
                             ? userOwnerButtons
-                            : likeButton
-                        )
+                            : !userLiked && likeButton
+                            
+                        
                     }
-                    
+
                 </div>
 
                 <div className="card-body">
