@@ -14,6 +14,7 @@ export default function RecipeDetails()
     const [recipe, setRecipe] = useState({});
     const [likes, setLikes] = useState([]);
     const [userLiked, setUserLiked] = useState(false);
+    const [likeId, setLikeId] = useState(null);
     const { recipeId } = useParams();
     const { user } = useAuth();
 
@@ -27,16 +28,22 @@ export default function RecipeDetails()
     }, [recipeId]);
 
     useEffect(() => {
+
         likeService.recipeLikes(recipeId)
             .then(likesResult => {
 
                 let userLikedData = likesResult.filter(like => like._ownerId === user._id)
                 let isLiked = userLikedData.length > 0;
-                
+
                 setUserLiked(isLiked);
                 setLikes(likesResult);
 
-            })
+                if(isLiked){
+                    setLikeId(userLikedData[0]._id);
+                }
+                
+        });
+            
     }, [recipeId, user._id]);
 
 
@@ -66,29 +73,53 @@ export default function RecipeDetails()
             "recipeId": recipeId
         }, user.accessToken)
         .then(result => {
-            navigate('/');
+            setLikes([...likes, result]);
+            setUserLiked(true);
+            setLikeId(result._id);
         });
 
     }
 
+    const dislikeButtonClick = () => {
+
+        likeService.destroy(likeId, user.accessToken).then((result) => {
+            removeLike(user._id);
+        }); 
+    }
+
+    const removeLike = (userId) => {
+
+        let filLikes = likes.filter(item => item._ownerId !== userId);
+
+        setLikes(filLikes);
+        setUserLiked(false);
+        setLikeId(null);
+        
+    }
+
     const userOwnerButtons = (
         <div className="float-end">
-            <Link key={1} type="button" className="btn recipe-btn btn-sm me-1" to={`/edit/${recipeId}`}>Edit</Link>
-            <button key={2} type="button" className="btn btn-secondary btn-sm" onClick={openDeleteModal}>Delete</button>
+            <Link key={"edit"} type="button" className="btn recipe-btn btn-sm me-1" to={`/edit/${recipeId}`}>Edit</Link>
+            <button key={"delete"} type="button" className="btn btn-secondary btn-sm" onClick={openDeleteModal}>Delete</button>
         </div>
     );
 
     const likeButton = (
-        <div className="float-end">
-            <span className='pt-2'>Likes: </span>
-            <span className="pt-2">{likes.length} </span>
-          
-            <button type="button" className="btn recipe-btn btn-sm ms-2" onClick={likeButtonClick}>
-                <i className="fas fa-thumbs-up like-button-icon"></i>
-                Like
-            </button>
-        </div>
+        <button key={"like"} type="button" className="btn recipe-btn btn-sm me-2 float-end" onClick={likeButtonClick}>
+            <i className="fas fa-thumbs-up like-button-icon"></i>
+            Like
+        </button>
     )
+
+    const unLikeButton = (
+        <button key={"dislike"} type="button" className="btn btn-danger btn-sm me-2 float-end" onClick={dislikeButtonClick}>
+            Dislike
+        </button>
+    )
+
+    const likeButtons = (
+        (!userLiked && user._id) ? likeButton : unLikeButton
+    );
 
    return(
     <>   
@@ -103,15 +134,22 @@ export default function RecipeDetails()
 
             <div className="card">
                 <div className="card-header">
+
                     Recipe details
 
                     {
-                        user._id && (user._id === recipe._ownerId)
-                            ? userOwnerButtons
-                            : !userLiked && likeButton
-                            
-                        
+                        user._id && (user._id === recipe._ownerId) && userOwnerButtons
                     }
+
+                   
+                    {
+                       user._id && (user._id !== recipe._ownerId) && likeButtons
+                    }
+
+                    <span className="mt-1 me-2 float-end">
+                        <span className='pt-2'>Likes: </span>
+                        <span className="pt-2">{likes.length} </span>
+                    </span>
 
                 </div>
 

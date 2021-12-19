@@ -13,6 +13,7 @@ import Register from './components/Register';
 import CreateRecipe from './components/CreateRecipe';
 import UserRecipes from './components/UserRecipes';
 import EditRecipe from './components/EditRecipe';
+import GuardedRoute from './components/Common/GuardedRoute';
 
 function App() {
 
@@ -25,12 +26,16 @@ function App() {
           <Routes>
               <Route path="/" exact element={<Home/>} />
               <Route path="/catalog" exact element={<Catalog/>} />
-              <Route path="/create-recipe" element={<CreateRecipe/>} />
               <Route path="/login" element={<Login/>} />
               <Route path="/register" element={<Register/>} />
               <Route path="/details/:recipeId" element={<RecipeDetails/>} />
-              <Route path="/edit/:recipeId" element={<EditRecipe/>} />
-              <Route path="/my-recipes" element={<UserRecipes/>} />
+              
+
+              <Route element={<GuardedRoute />}>
+                <Route path="/create-recipe" element={<CreateRecipe/>} />
+                <Route path="/edit/:recipeId" element={<EditRecipe/>} />
+                <Route path="/my-recipes" element={<UserRecipes/>} />
+              </Route>
           </Routes>
 
         <Footer />

@@ -26,3 +26,18 @@ export const recipeLikes = async (recipeId) => {
     return result;
 
 };
+
+export const destroy = async (likeId, token) => {
+
+    let response = await fetch(`${baseUrl}/likes/${likeId}`, {
+        method: 'DELETE',
+        headers: {
+            'content-type': 'application/json',
+            'X-Authorization': token,
+        }
+    });
+
+    let result = await response.json();
+    return result;
+
+};

@@ -17,7 +17,7 @@ export default function Home(){
     return (
         <>
         <section id="app-info">
-            <div className="bg-primary text-white px-4 py-5 mb-4" style={{
+            <div className="text-white px-4 py-5 mb-4" style={{
                 backgroundImage: `url("/img/pizzatime.jpg")`,
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "100% 700px"
