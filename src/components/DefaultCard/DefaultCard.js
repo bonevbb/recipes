@@ -30,7 +30,7 @@ export default function HomeCard({
                 <div className="card-footer">
                 <div className="float-start">
                     <p className="card-text">
-                        <small className="text-muted">Аuthor: {recipe.author}</small>
+                        <small className="text-muted">Аuthor: {recipe.author.length === 0 ? 'Anonymous' : recipe.author}</small>
                     </p>
                 </div>
                 

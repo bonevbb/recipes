@@ -71,11 +71,13 @@ export default function CreateRecipe()
     }
 
     function onClickStepHandler() {
-        if(ingredient.length >= 4){
+
+        if(step.length >= 4){
             setErrors(errors => ({...errors, step: false}));
             setSteps(oldSteps => [...oldSteps, step]);
         }
         else{
+            console.log(234);
             let errorMsg = CreateRecipeHelper.stepValidation(step);
             setErrors(errors => ({...errors, step: errorMsg}));
         }
@@ -162,10 +164,14 @@ export default function CreateRecipe()
                 
                 <div className="input-group mb-3">
                     <div className="form-floating flex-grow-1">
-                        <input type="text" className="form-control" placeholder="Mix the ingredients" onChange={onChangeStepHandler} value={step}/>
-                        <label htmlFor="step">Add step</label>
+                        <input type="text" className={`form-control ${errors.step && 'is-invalid'}`} placeholder="Mix the ingredients" onChange={onChangeStepHandler} value={step}/>
+                        <label className={`${errors.step && 'text-danger'}`} htmlFor="step">Add step</label>
                     </div>
                     <button className="btn recipe-btn-outline" onClick={onClickStepHandler} type="button" id="button-addon2">Add step</button>
+                </div>
+
+                <div className='step-error'>
+                    <p className="text-danger">{errors.step}</p>
                 </div>
 
                 <h5>Steps</h5>

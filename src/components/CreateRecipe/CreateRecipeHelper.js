@@ -74,5 +74,4 @@ export const stepValidation = (step) => {
     }
 
     return error;
-
 }
