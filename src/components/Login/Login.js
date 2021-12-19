@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../contexts/AuthContext';
@@ -8,10 +9,12 @@ export default function Login()
 {
     const { login } = useAuth();
     const navigate = useNavigate();
+    const [errorMsg, setErrorMsg] = useState('');
 
     const onLoginHandler = (e) => {
-        
+
         e.preventDefault();
+        setErrorMsg('');
 
         let formData = new FormData(e.currentTarget);
 
@@ -25,8 +28,7 @@ export default function Login()
                 navigate('/');
             })
             .catch(err => {
-                // TODO: show notification
-                console.log(err);
+                setErrorMsg(err);
             });
     }
 
@@ -34,12 +36,20 @@ export default function Login()
         <section id="login-page" className="login">
             <main className="form-signin">
                 <form id="login-form" onSubmit={onLoginHandler} method="POST">
+                    
                     <h1 className="h3 mb-3 fw-normal">Login</h1>
 
-                    <div className="form-floating mb-2">
+                    {
+                        errorMsg && <p className="text-danger text-center">
+                            {errorMsg}
+                        </p>
+                    }
+
+                    <div className="form-floating mb-2 has-error">
                         <input type="email" className="form-control" id="email" name="email" placeholder="name@example.com"/>
                         <label htmlFor="floatingInput">Email address</label>
                     </div>
+
                     <div className="form-floating mb-2">
                         <input type="password" className="form-control" id="password" name="password" placeholder="Password"/>
                         <label htmlFor="floatingPassword">Password</label>
@@ -48,7 +58,6 @@ export default function Login()
                     <button className="w-100 btn btn-lg recipe-btn" type="submit">Login</button>
                 </form>
             </main>
-           
         </section>
     );
 }

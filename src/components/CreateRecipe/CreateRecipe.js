@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../contexts/AuthContext';
 import * as recipeService from '../../services/recipeService';
+import * as CreateRecipeHelper from './CreateRecipeHelper';
 
 import './CreateRecipe.css';
 
@@ -10,13 +11,17 @@ export default function CreateRecipe()
 {
     const [ingredients, setIngredients] = useState([]);
     const [ingredient, setIngredient] = useState('');
-   
     const [steps, setSteps] = useState([]);
     const [step, setStep] = useState('');
+    const [errors, setErrors] = useState({
+        name: false,
+        desc: false,
+        imgUrl: false
+    })
 
     const { user } = useAuth();
     const navigate = useNavigate();
-   
+
     const onRecipeCreate = (e) => {
 
         e.preventDefault();
@@ -40,14 +45,24 @@ export default function CreateRecipe()
         });
     }
 
-    function onChangeIngrementHandler(e) {
-        let ingredientValue = e.target.value;
+    function onChangeIngredientHandler(e) {
+        let ingredientValue = e.target.value;        
         setIngredient(ingredientValue);
     }
 
-    function onClickIngrementHandler() {
-        setIngredients(oldIngredients => [...oldIngredients, ingredient]);
+    function onClickIngredientHandler() {
+
+        if(ingredient.length >= 4){
+            setErrors(errors => ({...errors, ingredient: false}));
+            setIngredients(oldIngredients => [...oldIngredients, ingredient]);
+        }
+        else{
+            let errorMsg = CreateRecipeHelper.ingredientValidation(ingredient);
+            setErrors(errors => ({...errors, ingredient: errorMsg}));
+        }
+
         setIngredient('');
+
     }
 
     function onChangeStepHandler(e) {
@@ -56,35 +71,78 @@ export default function CreateRecipe()
     }
 
     function onClickStepHandler() {
-        setSteps(oldSteps => [...oldSteps, step]);
+        if(ingredient.length >= 4){
+            setErrors(errors => ({...errors, step: false}));
+            setSteps(oldSteps => [...oldSteps, step]);
+        }
+        else{
+            let errorMsg = CreateRecipeHelper.stepValidation(step);
+            setErrors(errors => ({...errors, step: errorMsg}));
+        }
+        
         setStep('');
     }
+
+    const nameBlurHandler = (e) => {
+        let currentName = e.target.value;
+        let errorMsg = CreateRecipeHelper.nameValidation(currentName);
+
+        setErrors(errors => ({...errors, name: errorMsg}))
+    };
+
+    const descriptionBlurHandler = (e) => {
+        let currentDesc = e.target.value;
+        let errorMsg = CreateRecipeHelper.descriptionValidation(currentDesc);
+
+        setErrors(errors => ({...errors, desc: errorMsg}))
+    };
+
+    const imgUrlBlurHandler = (e) => {
+        let imgUrl = e.target.value;
+        let errorMsg = CreateRecipeHelper.imgUrlValidation(imgUrl);
+
+        setErrors(errors => ({...errors, imgUrl: errorMsg}))
+    };
 
     return (
         <section className="add-recipe-page">
             <h5>Add recipe</h5>
             <form onSubmit={onRecipeCreate}>
                 <div className="form-floating mb-3">
-                    <input type="text" className="form-control" id="name" name="name" placeholder="spaghetti bolognese" />
-                    <label htmlFor="name">Recipe Name</label>
+                    <input 
+                        type="text" 
+                        className={`form-control ${errors.name && 'is-invalid'}`} 
+                        id="name" 
+                        name="name" 
+                        placeholder="spaghetti bolognese" 
+                        onBlur={nameBlurHandler}
+                    />
+                    <label className={`${errors.name && 'text-danger'}`} htmlFor="name">Recipe Name</label>
+                    <p className="text-danger">{errors.name}</p>
                 </div>
 
                 <div className="form-floating mb-3">
-                    <textarea className="form-control" placeholder="Lorem ipsum dolor sit amet." name="desc" id="desc"></textarea>
-                    <label htmlFor="desc">Description</label>
+                    <textarea className={`form-control ${errors.desc && 'is-invalid'}`} name="desc" id="desc" onBlur={descriptionBlurHandler} placeholder='description'></textarea>
+                    <label className={`${errors.desc && 'text-danger'}`} htmlFor="desc">Description</label>
+                    <p className="text-danger">{errors.desc}</p>
                 </div>
 
                 <div className="form-floating mb-3">
-                    <input type="text" className="form-control" id="img" name="img" placeholder="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.slimmingeats.com%2Fblog%2Fspaghetti-bolognese&psig=AOvVaw1Ui8LogUtY5LkEANQFQMFm&ust=1638708213833000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCPjFq5GWyvQCFQAAAAAdAAAAABAJ" />
-                    <label htmlFor="img">Image Url</label>
+                    <input type="text" className={`form-control ${errors.imgUrl && 'is-invalid'}`} id="img" name="img" onBlur={imgUrlBlurHandler} placeholder='imgUrl'/>
+                    <label className={`${errors.imgUrl && 'text-danger'}`}  htmlFor="img">Image Url</label>
+                    <p className="text-danger">{errors.imgUrl}</p>
                 </div>
 
                 <div className="input-group mb-3">
                     <div className="form-floating flex-grow-1">
-                        <input type="text" className="form-control" placeholder="500 g Ingredient 1" onChange={onChangeIngrementHandler} value={ingredient}/>
-                        <label htmlFor="ingredient">Add ingredient</label>
+                        <input type="text" className={`form-control ${errors.ingredient && 'is-invalid'}`} placeholder="500 g Ingredient 1" onChange={onChangeIngredientHandler} value={ingredient}/>
+                        <label className={`${errors.ingredient && 'text-danger'}`} htmlFor="ingredient">Add ingredient</label>
                     </div>
-                    <button className="btn recipe-btn-outline" onClick={onClickIngrementHandler} type="button" id="button-addon2">Add ingredient</button>
+                    <button className="btn recipe-btn-outline" onClick={onClickIngredientHandler} type="button" id="button-addon2">Add ingredient</button>
+                </div>
+
+                <div className='ingredient-error'>
+                    <p className="text-danger">{errors.ingredient}</p>
                 </div>
 
                 <h5>Ingredients</h5>
