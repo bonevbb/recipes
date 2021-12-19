@@ -59,10 +59,9 @@ export default function RecipeDetails()
 
         recipeService.destroy(recipeId, user.accessToken)
             .then(() => {
-                navigate('/my-recipes');
-            }).finally(() =>{
                 setShowDeleteDialog(false);
-            }); 
+                navigate('/my-recipes');
+            });
 
     };
 
