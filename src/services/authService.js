@@ -1,48 +1,25 @@
+import * as httpClient from './httpClient';
+
 const baseUrl = 'https://server-recipes.herokuapp.com';
 
-export const login = async (email, password) => {
+export const login = (email, password) => {
 
-    let res = await fetch(`${baseUrl}/users/login`, {
-        method: 'POST',
-        headers: {
-            'content-type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
-    });
+    return httpClient.postRequest(`${baseUrl}/users/login`, { email, password });
 
-    let jsonResult = await res.json();
-
-    if (res.ok) {
-        return jsonResult;
-    } else {
-        throw jsonResult.message;
-    }
 };
 
-export const register = async (email, password) => {
+export const register = (email, password) => {
 
-    let res = await fetch(`${baseUrl}/users/register`, {
-        method: 'POST',
-        headers: {
-            'content-type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
-    });
-
-    let jsonResult = await res.json();
-
-    if (res.ok) {
-        return jsonResult;
-    } else {
-        throw jsonResult.message;
-    }
+    return httpClient.postRequest(`${baseUrl}/users/register`, { email, password });
 
 };
 
 export const logout = (token) => {
+
     return fetch(`${baseUrl}/users/logout`, {
         headers: {
             'X-Authorization': token,
         }
-    })
+    });
+    
 };

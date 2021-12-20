@@ -17,7 +17,7 @@ export default function Header(){
             .then(() => {
                 logout();
                 navigate('/login');
-        });
+            });
     }
 
     let guestNavigationButtons = (
@@ -76,17 +76,11 @@ export default function Header(){
                     </span>
                 </NavLink>
 
-               
-
                 {   
                     user.email
                         ? userNavigationButtons
                         : guestNavigationButtons
                 }
-                    {/* <NavLink className="btn btn-outline-primary me-2" to="/login">Login</NavLink>
-                    <a href="/logout" className="btn btn-outline-info me-2">Logout</a>
-                    <button type="button" className="btn btn-primary">Register</button> */}
-                {/* </div> */}
                 
             </header>
         </section>

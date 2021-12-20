@@ -1,6 +1,6 @@
-export const getRequest = async (url, list = false) => {
+export const getRequest = async (url, list = false, headers = {}) => {
 
-    let response = fetch(url);
+    let response = fetch(url, headers);
 
     return response.then(result => {
         return responseHandler(result, list);
@@ -8,14 +8,24 @@ export const getRequest = async (url, list = false) => {
 
 };
 
-export const postRequest = async (url, data, token) => {
+export const postRequest = async (url, data, token = false) => {
+    let headers = undefined;
+
+    if(token){
+        headers = {
+            'content-type': 'application/json',
+            'X-Authorization': token,
+        };
+    }
+    else{
+        headers = {
+            'content-type': 'application/json'
+        };
+    }
 
     let response = fetch(url, {
         method: 'POST',
-        headers: {
-            'content-type': 'application/json',
-            'X-Authorization': token,
-        },
+        headers: headers,
         body: JSON.stringify({...data})
     });
 
