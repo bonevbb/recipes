@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { useAuth } from '../../contexts/AuthContext';
 import * as recipeService from '../../services/recipeService';
+import * as CreateRecipeHelper from '../RecipeHelper';
 
 import './EditRecipe.css';
 
@@ -16,6 +17,13 @@ export default function EditRecipe()
    
     const [steps, setSteps] = useState([]);
     const [step, setStep] = useState('');
+    const [errors, setErrors] = useState({
+        name: false,
+        desc: false,
+        imgUrl: false,
+        ingredient: false,
+        step: false
+    });
 
     const { user } = useAuth();
     const navigate = useNavigate();
@@ -30,7 +38,7 @@ export default function EditRecipe()
 
     }, [recipeId]);
    
-    const onRecipeCreate = (e) => {
+    const onRecipeUpdate = (e) => {
 
         e.preventDefault();
         let formData = new FormData(e.currentTarget);
@@ -54,14 +62,24 @@ export default function EditRecipe()
         });
     }
 
-    function onChangeIngrementHandler(e) {
-        let ingredientValue = e.target.value;
+    function onChangeIngredientHandler(e) {
+        let ingredientValue = e.target.value;        
         setIngredient(ingredientValue);
     }
 
-    function onClickIngrementHandler() {
-        setIngredients(oldIngredients => [...oldIngredients, ingredient]);
+    function onClickIngredientHandler() {
+
+        if(ingredient.length >= 4){
+            setErrors(errors => ({...errors, ingredient: false}));
+            setIngredients(oldIngredients => [...oldIngredients, ingredient]);
+        }
+        else{
+            let errorMsg = CreateRecipeHelper.ingredientValidation(ingredient);
+            setErrors(errors => ({...errors, ingredient: errorMsg}));
+        }
+
         setIngredient('');
+
     }
 
     function onChangeStepHandler(e) {
@@ -70,7 +88,16 @@ export default function EditRecipe()
     }
 
     function onClickStepHandler() {
-        setSteps(oldSteps => [...oldSteps, step]);
+
+        if(step.length >= 4){
+            setErrors(errors => ({...errors, step: false}));
+            setSteps(oldSteps => [...oldSteps, step]);
+        }
+        else{
+            let errorMsg = CreateRecipeHelper.stepValidation(step);
+            setErrors(errors => ({...errors, step: errorMsg}));
+        }
+        
         setStep('');
     }
 
@@ -84,38 +111,78 @@ export default function EditRecipe()
         setSteps(oldSteps => oldSteps.filter((step, index) => index !== id))
     }
 
+    const nameOnChangeHandler = (e) => {
+        let currentName = e.target.value;
+        let errorMsg = CreateRecipeHelper.nameValidation(currentName);
+
+        setErrors(errors => ({...errors, name: errorMsg}))
+    };
+
+    const descriptiOnChangeHandler = (e) => {
+        let currentDesc = e.target.value;
+        let errorMsg = CreateRecipeHelper.descriptionValidation(currentDesc);
+
+        setErrors(errors => ({...errors, desc: errorMsg}))
+    };
+
+    const imgUrlOnChangeHandler = (e) => {
+        let imgUrl = e.target.value;
+        let errorMsg = CreateRecipeHelper.imgUrlValidation(imgUrl);
+
+        setErrors(errors => ({...errors, imgUrl: errorMsg}))
+    };
+
     return (
         <section className="edit-recipe-page">
             <h5>Add recipe</h5>
-            <form onSubmit={onRecipeCreate}>
-                <div className="form-floating mb-3">
-                    <input type="text" className="form-control" id="name" name="name" placeholder="spaghetti bolognese" defaultValue={recipe.name}/>
-                    <label htmlFor="name">Recipe Name</label>
-                </div>
-
-                <div className="form-floating mb-3">
-                    <textarea className="form-control edit-recipe-textarea" placeholder="Lorem ipsum dolor sit amet." name="desc" id="desc" defaultValue={recipe.desc}></textarea>
-                    <label htmlFor="desc">Description</label>
-                </div>
-
+            <form onSubmit={onRecipeUpdate}>
                 <div className="form-floating mb-3">
                     <input 
                         type="text" 
-                        className="form-control" 
-                        id="img" 
-                        name="img" 
-                        placeholder="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.slimmingeats.com%2Fblog%2Fspaghetti-bolognese&psig=AOvVaw1Ui8LogUtY5LkEANQFQMFm&ust=1638708213833000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCPjFq5GWyvQCFQAAAAAdAAAAABAJ" 
-                        defaultValue={recipe.img}
+                        className={`form-control ${errors.name && 'is-invalid'}`} 
+                        id="name" 
+                        name="name" 
+                        placeholder="spaghetti bolognese" 
+                        onChange={nameOnChangeHandler}
+                        required
+                        defaultValue={recipe.name}
                     />
-                    <label htmlFor="img">Image Url</label>
+                    <label className={`${errors.name && 'text-danger'}`} htmlFor="name">Recipe Name</label>
+                    <p className="text-danger">{errors.name}</p>
+                </div>
+
+                <div className="form-floating mb-3">
+                    <textarea 
+                        className={`form-control ${errors.desc && 'is-invalid'}`} 
+                        name="desc" 
+                        id="desc" 
+                        onChange={descriptiOnChangeHandler} 
+                        placeholder='description' 
+                        required 
+                        defaultValue={recipe.desc}
+                    >
+
+                    </textarea>
+                    <label className={`${errors.desc && 'text-danger'}`} htmlFor="desc">Description</label>
+                    <p className="text-danger">{errors.desc}</p>
+                </div>
+
+                <div className="form-floating mb-3">
+                    <input defaultValue={recipe.img} type="text" className={`form-control ${errors.imgUrl && 'is-invalid'}`} id="img" name="img" onChange={imgUrlOnChangeHandler} placeholder='imgUrl' required/>
+                    <label className={`${errors.imgUrl && 'text-danger'}`}  htmlFor="img">Image Url</label>
+                    <p className="text-danger">{errors.imgUrl}</p>
                 </div>
 
                 <div className="input-group mb-3">
                     <div className="form-floating flex-grow-1">
-                        <input type="text" className="form-control" placeholder="500 g Ingredient 1" onChange={onChangeIngrementHandler} value={ingredient}/>
-                        <label htmlFor="ingredient">Add ingredient</label>
+                        <input type="text" className={`form-control ${errors.ingredient && 'is-invalid'}`} placeholder="500 g Ingredient 1" onChange={onChangeIngredientHandler} value={ingredient}/>
+                        <label className={`${errors.v && 'text-danger'}`} htmlFor="ingredient">Add ingredient</label>
                     </div>
-                    <button className="btn recipe-btn-outline" onClick={onClickIngrementHandler} type="button" id="button-addon2">Add ingredient</button>
+                    <button className="btn recipe-btn-outline" onClick={onClickIngredientHandler} type="button" id="button-addon2">Add ingredient</button>
+                </div>
+
+                <div className='ingredient-error'>
+                    <p className="text-danger">{errors.ingredient}</p>
                 </div>
 
                 <h5>Ingredients</h5>
@@ -138,10 +205,14 @@ export default function EditRecipe()
                 
                 <div className="input-group mb-3">
                     <div className="form-floating flex-grow-1">
-                        <input type="text" className="form-control" placeholder="Mix the ingredients" onChange={onChangeStepHandler} value={step}/>
-                        <label htmlFor="step">Add step</label>
+                        <input type="text" className={`form-control ${errors.step && 'is-invalid'}`} placeholder="Mix the ingredients" onChange={onChangeStepHandler} value={step}/>
+                        <label className={`${errors.step && 'text-danger'}`} htmlFor="step">Add step</label>
                     </div>
                     <button className="btn recipe-btn-outline" onClick={onClickStepHandler} type="button" id="button-addon2">Add step</button>
+                </div>
+
+                <div className='step-error'>
+                    <p className="text-danger">{errors.step}</p>
                 </div>
 
                 <h5>Steps</h5>

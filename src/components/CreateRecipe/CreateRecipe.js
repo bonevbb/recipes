@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../contexts/AuthContext';
 import * as recipeService from '../../services/recipeService';
-import * as CreateRecipeHelper from './CreateRecipeHelper';
+import * as CreateRecipeHelper from '../RecipeHelper';
 
 import './CreateRecipe.css';
 
@@ -16,33 +16,40 @@ export default function CreateRecipe()
     const [errors, setErrors] = useState({
         name: false,
         desc: false,
-        imgUrl: false
-    })
+        imgUrl: false,
+        ingredient: false,
+        step: false
+    });
 
     const { user } = useAuth();
     const navigate = useNavigate();
 
     const onRecipeCreate = (e) => {
-
         e.preventDefault();
+        
         let formData = new FormData(e.currentTarget);
-
         let name            = formData.get('name');
         let description     = formData.get('desc');
         let imageUrl        = formData.get('img');
         let author          = formData.get('author');
 
-        recipeService.create({
-            name,
-            desc: description,
-            img: imageUrl,
-            ingredients,
-            steps,
-            author
-        }, user.accessToken)
-            .then(result => {
-                navigate('/');
-        });
+        let isValid = Object.values(errors).every((error) => error === false);
+       
+        if(isValid)
+        {
+            recipeService.create({
+                name,
+                desc: description,
+                img: imageUrl,
+                ingredients,
+                steps,
+                author
+            }, user.accessToken)
+                .then(result => {
+                    navigate('/');
+            });
+        }
+
     }
 
     function onChangeIngredientHandler(e) {
@@ -77,7 +84,6 @@ export default function CreateRecipe()
             setSteps(oldSteps => [...oldSteps, step]);
         }
         else{
-            console.log(234);
             let errorMsg = CreateRecipeHelper.stepValidation(step);
             setErrors(errors => ({...errors, step: errorMsg}));
         }
@@ -85,21 +91,21 @@ export default function CreateRecipe()
         setStep('');
     }
 
-    const nameBlurHandler = (e) => {
+    const nameOnChangeHandler = (e) => {
         let currentName = e.target.value;
         let errorMsg = CreateRecipeHelper.nameValidation(currentName);
 
         setErrors(errors => ({...errors, name: errorMsg}))
     };
 
-    const descriptionBlurHandler = (e) => {
+    const descriptiOnChangeHandler = (e) => {
         let currentDesc = e.target.value;
         let errorMsg = CreateRecipeHelper.descriptionValidation(currentDesc);
 
         setErrors(errors => ({...errors, desc: errorMsg}))
     };
 
-    const imgUrlBlurHandler = (e) => {
+    const imgUrlOnChangeHandler = (e) => {
         let imgUrl = e.target.value;
         let errorMsg = CreateRecipeHelper.imgUrlValidation(imgUrl);
 
@@ -109,6 +115,7 @@ export default function CreateRecipe()
     return (
         <section className="add-recipe-page">
             <h5>Add recipe</h5>
+            
             <form onSubmit={onRecipeCreate}>
                 <div className="form-floating mb-3">
                     <input 
@@ -117,20 +124,21 @@ export default function CreateRecipe()
                         id="name" 
                         name="name" 
                         placeholder="spaghetti bolognese" 
-                        onBlur={nameBlurHandler}
+                        onChange={nameOnChangeHandler}
+                        required
                     />
                     <label className={`${errors.name && 'text-danger'}`} htmlFor="name">Recipe Name</label>
                     <p className="text-danger">{errors.name}</p>
                 </div>
 
                 <div className="form-floating mb-3">
-                    <textarea className={`form-control ${errors.desc && 'is-invalid'}`} name="desc" id="desc" onBlur={descriptionBlurHandler} placeholder='description'></textarea>
+                    <textarea className={`form-control ${errors.desc && 'is-invalid'}`} name="desc" id="desc" onChange={descriptiOnChangeHandler} placeholder='description' required></textarea>
                     <label className={`${errors.desc && 'text-danger'}`} htmlFor="desc">Description</label>
                     <p className="text-danger">{errors.desc}</p>
                 </div>
 
                 <div className="form-floating mb-3">
-                    <input type="text" className={`form-control ${errors.imgUrl && 'is-invalid'}`} id="img" name="img" onBlur={imgUrlBlurHandler} placeholder='imgUrl'/>
+                    <input type="text" className={`form-control ${errors.imgUrl && 'is-invalid'}`} id="img" name="img" onChange={imgUrlOnChangeHandler} placeholder='imgUrl' required/>
                     <label className={`${errors.imgUrl && 'text-danger'}`}  htmlFor="img">Image Url</label>
                     <p className="text-danger">{errors.imgUrl}</p>
                 </div>
@@ -138,7 +146,7 @@ export default function CreateRecipe()
                 <div className="input-group mb-3">
                     <div className="form-floating flex-grow-1">
                         <input type="text" className={`form-control ${errors.ingredient && 'is-invalid'}`} placeholder="500 g Ingredient 1" onChange={onChangeIngredientHandler} value={ingredient}/>
-                        <label className={`${errors.ingredient && 'text-danger'}`} htmlFor="ingredient">Add ingredient</label>
+                        <label className={`${errors.v && 'text-danger'}`} htmlFor="ingredient">Add ingredient</label>
                     </div>
                     <button className="btn recipe-btn-outline" onClick={onClickIngredientHandler} type="button" id="button-addon2">Add ingredient</button>
                 </div>
@@ -193,7 +201,7 @@ export default function CreateRecipe()
                     <input type="text" className="form-control" id="author" name="author" placeholder="Pesho" />
                     <label htmlFor="author">Author</label>
                 </div>
-
+                
                 <button type="submit" className="btn recipe-btn">Add</button>
             </form>
         </section>

@@ -51,3 +51,7 @@
 .btn:focus{
     box-shadow: none !important;
 }
+
+.text-align-right{
+    text-align: 'right' !important
+}
