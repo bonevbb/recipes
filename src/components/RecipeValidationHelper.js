@@ -1,7 +1,7 @@
 
-export default function validate(values, eventTargetName = false) 
+export default function validate(values) 
 {
-    
+
     let errors = {};
 
     //validate name

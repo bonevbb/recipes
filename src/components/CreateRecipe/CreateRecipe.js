@@ -11,9 +11,7 @@ import './CreateRecipe.css';
 const initialFormValues = {
     name: '',
     desc: '',
-    imgUrl: '',
-    ingredient: '',
-    step: ''
+    imgUrl: ''
 };
 
 const initialLocalValues = {
@@ -127,7 +125,7 @@ export default function CreateRecipe()
         e.stopPropagation();
         setSteps(oldSteps => oldSteps.filter((step, index) => index !== id))
     }
-    
+
     return (
         <section className="add-recipe-page">
             <h5>Add recipe</h5>

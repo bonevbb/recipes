@@ -15,30 +15,31 @@ export const useForm = (callback, validate, initialValues) => {
 
 
   const onSubmitHandler = (event) => {
-
+    
     if (event) {
         setCurrentEvent(event);
         event.preventDefault();
     }
 
+    console.log(values);
+
     setErrors(validate(values));
     setIsValid(true);
-    
 
-    // if (Object.keys(errors).length === 0 && isValid) {
-    //     console.log(323);
-    //     callback(event);
-    // }
   };
 
    const onChangeHandler = (event) => {
-        // event.persist();
         setValues(values => ({ ...values, [event.target.name]: event.target.value }));
    };
+
+   const initValues = (values) => {
+        setValues(values)
+   }
 
   return {
     onChangeHandler,
     onSubmitHandler,
+    initValues,
     values,
     errors,
   }
