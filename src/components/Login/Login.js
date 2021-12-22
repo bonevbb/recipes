@@ -9,27 +9,34 @@ export default function Login()
 {
     const { login } = useAuth();
     const navigate = useNavigate();
-    const [errorMsg, setErrorMsg] = useState('');
+    const [errorMsg, setErrorMsg] = useState([]);
 
     const onLoginHandler = (e) => {
 
         e.preventDefault();
-        setErrorMsg('');
+        setErrorMsg([]);
 
         let formData = new FormData(e.currentTarget);
 
         let email = formData.get('email');
         let password = formData.get('password');
 
-        authService.login(email, password)
+        if(password.length === 0){
+            setErrorMsg('Invalid password!');
+        }
+        
+        if(password.length > 0 && email.length > 0){
+            authService.login(email, password)
             .then((authData) => {
                 login(authData);
 
                 navigate('/');
             })
             .catch(err => {
-                setErrorMsg(err);
+                setErrorMsg(err.message);
             });
+        }
+        
     }
 
     return (
@@ -40,9 +47,12 @@ export default function Login()
                     <h1 className="h3 mb-3 fw-normal">Login</h1>
 
                     {
-                        errorMsg && <p className="text-danger text-center">
+                        
+                        errorMsg.length > 0 && 
+                        <p className="text-danger text-center" key={errorMsg}>
                             {errorMsg}
                         </p>
+
                     }
 
                     <div className="form-floating mb-2 has-error">
