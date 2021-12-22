@@ -15,6 +15,7 @@ export const getLatest = () => {
 }
 
 export const create = (recipeData, token) => {
+    console.log(recipeData);
     return httpClient.postRequest(`${baseUrl}/recipes`, recipeData, token);
 };
 

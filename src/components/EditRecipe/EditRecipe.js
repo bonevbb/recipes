@@ -1,247 +1,251 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+// import { useState, useEffect } from 'react';
+// import { useNavigate, useParams } from 'react-router-dom';
 
-import { useAuth } from '../../contexts/AuthContext';
-import * as recipeService from '../../services/recipeService';
-import * as CreateRecipeHelper from '../RecipeHelper';
+// import { useAuth } from '../../contexts/AuthContext';
+// import * as recipeService from '../../services/recipeService';
+// import * as CreateRecipeHelper from '../RecipeValidationHelper';
 
-import './EditRecipe.css';
+// import './EditRecipe.css';
 
 export default function EditRecipe() 
 {
-    const { recipeId } = useParams();
-    const [recipe, setRecipe] = useState({});
+    // const { recipeId } = useParams();
+    // const [recipe, setRecipe] = useState({});
 
-    const [ingredients, setIngredients] = useState([]);
-    const [ingredient, setIngredient] = useState('');
+    // const [ingredients, setIngredients] = useState([]);
+    // const [ingredient, setIngredient] = useState('');
    
-    const [steps, setSteps] = useState([]);
-    const [step, setStep] = useState('');
-    const [errors, setErrors] = useState({
-        name: false,
-        desc: false,
-        imgUrl: false,
-        ingredient: false,
-        step: false
-    });
+    // const [steps, setSteps] = useState([]);
+    // const [step, setStep] = useState('');
+    // const [errors, setErrors] = useState({
+    //     name: false,
+    //     desc: false,
+    //     imgUrl: false,
+    //     ingredient: false,
+    //     step: false
+    // });
 
-    const { user } = useAuth();
-    const navigate = useNavigate();
+    // const { user } = useAuth();
+    // const navigate = useNavigate();
 
-    useEffect(() => {
-        recipeService.getOne(recipeId)
-            .then(recipeResult => {
-                setRecipe(recipeResult);
-                setIngredients(recipeResult.ingredients);
-                setSteps(recipeResult.steps);
-            })
+    // useEffect(() => {
+    //     recipeService.getOne(recipeId)
+    //         .then(recipeResult => {
+    //             setRecipe(recipeResult);
+    //             setIngredients(recipeResult.ingredients);
+    //             setSteps(recipeResult.steps);
+    //         })
 
-    }, [recipeId]);
+    // }, [recipeId]);
    
-    const onRecipeUpdate = (e) => {
+    // const onRecipeUpdate = (e) => {
 
-        e.preventDefault();
-        let formData = new FormData(e.currentTarget);
+    //     e.preventDefault();
+    //     let formData = new FormData(e.currentTarget);
 
-        let name            = formData.get('name');
-        let description     = formData.get('desc');
-        let imageUrl        = formData.get('img');
-        let author          = formData.get('author');
+    //     let name            = formData.get('name');
+    //     let description     = formData.get('desc');
+    //     let imageUrl        = formData.get('img');
+    //     let author          = formData.get('author');
 
-        recipeService.update(recipeId,
-        {
-            name,
-            desc: description,
-            img: imageUrl,
-            ingredients,
-            steps,
-            author
-        }, user.accessToken)
-            .then(result => {
-                navigate('/');
-        });
-    }
+    //     recipeService.update(recipeId,
+    //     {
+    //         name,
+    //         desc: description,
+    //         img: imageUrl,
+    //         ingredients,
+    //         steps,
+    //         author
+    //     }, user.accessToken)
+    //         .then(result => {
+    //             navigate('/');
+    //     });
+    // }
 
-    function onChangeIngredientHandler(e) {
-        let ingredientValue = e.target.value;        
-        setIngredient(ingredientValue);
-    }
+    // function onChangeIngredientHandler(e) {
+    //     let ingredientValue = e.target.value;        
+    //     setIngredient(ingredientValue);
+    // }
 
-    function onClickIngredientHandler() {
+    // function onClickIngredientHandler() {
 
-        if(ingredient.length >= 4){
-            setErrors(errors => ({...errors, ingredient: false}));
-            setIngredients(oldIngredients => [...oldIngredients, ingredient]);
-        }
-        else{
-            let errorMsg = CreateRecipeHelper.ingredientValidation(ingredient);
-            setErrors(errors => ({...errors, ingredient: errorMsg}));
-        }
+    //     if(ingredient.length >= 4){
+    //         setErrors(errors => ({...errors, ingredient: false}));
+    //         setIngredients(oldIngredients => [...oldIngredients, ingredient]);
+    //     }
+    //     else{
+    //         let errorMsg = CreateRecipeHelper.ingredientValidation(ingredient);
+    //         setErrors(errors => ({...errors, ingredient: errorMsg}));
+    //     }
 
-        setIngredient('');
+    //     setIngredient('');
 
-    }
+    // }
 
-    function onChangeStepHandler(e) {
-        let stepValue = e.target.value;
-        setStep(stepValue);
-    }
+    // function onChangeStepHandler(e) {
+    //     let stepValue = e.target.value;
+    //     setStep(stepValue);
+    // }
 
-    function onClickStepHandler() {
+    // function onClickStepHandler() {
 
-        if(step.length >= 4){
-            setErrors(errors => ({...errors, step: false}));
-            setSteps(oldSteps => [...oldSteps, step]);
-        }
-        else{
-            let errorMsg = CreateRecipeHelper.stepValidation(step);
-            setErrors(errors => ({...errors, step: errorMsg}));
-        }
+    //     if(step.length >= 4){
+    //         setErrors(errors => ({...errors, step: false}));
+    //         setSteps(oldSteps => [...oldSteps, step]);
+    //     }
+    //     else{
+    //         let errorMsg = CreateRecipeHelper.stepValidation(step);
+    //         setErrors(errors => ({...errors, step: errorMsg}));
+    //     }
         
-        setStep('');
-    }
+    //     setStep('');
+    // }
 
-    function onDeleteIngredient(e, id){
-        e.stopPropagation();
-        setIngredients(oldIngredients => oldIngredients.filter((ingredient, index) => index !== id))
-    }
+    // function onDeleteIngredient(e, id){
+    //     e.stopPropagation();
+    //     setIngredients(oldIngredients => oldIngredients.filter((ingredient, index) => index !== id))
+    // }
 
-    function onDeleteStep(e, id){
-        e.stopPropagation();
-        setSteps(oldSteps => oldSteps.filter((step, index) => index !== id))
-    }
+    // function onDeleteStep(e, id){
+    //     e.stopPropagation();
+    //     setSteps(oldSteps => oldSteps.filter((step, index) => index !== id))
+    // }
 
-    const nameOnChangeHandler = (e) => {
-        let currentName = e.target.value;
-        let errorMsg = CreateRecipeHelper.nameValidation(currentName);
+    // const nameOnChangeHandler = (e) => {
+    //     let currentName = e.target.value;
+    //     let errorMsg = CreateRecipeHelper.nameValidation(currentName);
 
-        setErrors(errors => ({...errors, name: errorMsg}))
-    };
+    //     setErrors(errors => ({...errors, name: errorMsg}))
+    // };
 
-    const descriptiOnChangeHandler = (e) => {
-        let currentDesc = e.target.value;
-        let errorMsg = CreateRecipeHelper.descriptionValidation(currentDesc);
+    // const descriptiOnChangeHandler = (e) => {
+    //     let currentDesc = e.target.value;
+    //     let errorMsg = CreateRecipeHelper.descriptionValidation(currentDesc);
 
-        setErrors(errors => ({...errors, desc: errorMsg}))
-    };
+    //     setErrors(errors => ({...errors, desc: errorMsg}))
+    // };
 
-    const imgUrlOnChangeHandler = (e) => {
-        let imgUrl = e.target.value;
-        let errorMsg = CreateRecipeHelper.imgUrlValidation(imgUrl);
+    // const imgUrlOnChangeHandler = (e) => {
+    //     let imgUrl = e.target.value;
+    //     let errorMsg = CreateRecipeHelper.imgUrlValidation(imgUrl);
 
-        setErrors(errors => ({...errors, imgUrl: errorMsg}))
-    };
+    //     setErrors(errors => ({...errors, imgUrl: errorMsg}))
+    // };
 
-    return (
-        <section className="edit-recipe-page">
-            <h5>Add recipe</h5>
-            <form onSubmit={onRecipeUpdate}>
-                <div className="form-floating mb-3">
-                    <input 
-                        type="text" 
-                        className={`form-control ${errors.name && 'is-invalid'}`} 
-                        id="name" 
-                        name="name" 
-                        placeholder="spaghetti bolognese" 
-                        onChange={nameOnChangeHandler}
-                        required
-                        defaultValue={recipe.name}
-                    />
-                    <label className={`${errors.name && 'text-danger'}`} htmlFor="name">Recipe Name</label>
-                    <p className="text-danger">{errors.name}</p>
-                </div>
+    // return (
+    //     <section className="edit-recipe-page">
+    //         <h5>Add recipe</h5>
+    //         <form onSubmit={onRecipeUpdate}>
+    //             <div className="form-floating mb-3">
+    //                 <input 
+    //                     type="text" 
+    //                     className={`form-control ${errors.name && 'is-invalid'}`} 
+    //                     id="name" 
+    //                     name="name" 
+    //                     placeholder="spaghetti bolognese" 
+    //                     onChange={nameOnChangeHandler}
+    //                     required
+    //                     defaultValue={recipe.name}
+    //                 />
+    //                 <label className={`${errors.name && 'text-danger'}`} htmlFor="name">Recipe Name</label>
+    //                 <p className="text-danger">{errors.name}</p>
+    //             </div>
 
-                <div className="form-floating mb-3">
-                    <textarea 
-                        className={`form-control ${errors.desc && 'is-invalid'}`} 
-                        name="desc" 
-                        id="desc" 
-                        onChange={descriptiOnChangeHandler} 
-                        placeholder='description' 
-                        required 
-                        defaultValue={recipe.desc}
-                    >
+    //             <div className="form-floating mb-3">
+    //                 <textarea 
+    //                     className={`form-control ${errors.desc && 'is-invalid'}`} 
+    //                     name="desc" 
+    //                     id="desc" 
+    //                     onChange={descriptiOnChangeHandler} 
+    //                     placeholder='description' 
+    //                     required 
+    //                     defaultValue={recipe.desc}
+    //                 >
 
-                    </textarea>
-                    <label className={`${errors.desc && 'text-danger'}`} htmlFor="desc">Description</label>
-                    <p className="text-danger">{errors.desc}</p>
-                </div>
+    //                 </textarea>
+    //                 <label className={`${errors.desc && 'text-danger'}`} htmlFor="desc">Description</label>
+    //                 <p className="text-danger">{errors.desc}</p>
+    //             </div>
 
-                <div className="form-floating mb-3">
-                    <input defaultValue={recipe.img} type="text" className={`form-control ${errors.imgUrl && 'is-invalid'}`} id="img" name="img" onChange={imgUrlOnChangeHandler} placeholder='imgUrl' required/>
-                    <label className={`${errors.imgUrl && 'text-danger'}`}  htmlFor="img">Image Url</label>
-                    <p className="text-danger">{errors.imgUrl}</p>
-                </div>
+    //             <div className="form-floating mb-3">
+    //                 <input defaultValue={recipe.img} type="text" className={`form-control ${errors.imgUrl && 'is-invalid'}`} id="img" name="img" onChange={imgUrlOnChangeHandler} placeholder='imgUrl' required/>
+    //                 <label className={`${errors.imgUrl && 'text-danger'}`}  htmlFor="img">Image Url</label>
+    //                 <p className="text-danger">{errors.imgUrl}</p>
+    //             </div>
 
-                <div className="input-group mb-3">
-                    <div className="form-floating flex-grow-1">
-                        <input type="text" className={`form-control ${errors.ingredient && 'is-invalid'}`} placeholder="500 g Ingredient 1" onChange={onChangeIngredientHandler} value={ingredient}/>
-                        <label className={`${errors.v && 'text-danger'}`} htmlFor="ingredient">Add ingredient</label>
-                    </div>
-                    <button className="btn recipe-btn-outline" onClick={onClickIngredientHandler} type="button" id="button-addon2">Add ingredient</button>
-                </div>
+    //             <div className="input-group mb-3">
+    //                 <div className="form-floating flex-grow-1">
+    //                     <input type="text" className={`form-control ${errors.ingredient && 'is-invalid'}`} placeholder="500 g Ingredient 1" onChange={onChangeIngredientHandler} value={ingredient}/>
+    //                     <label className={`${errors.v && 'text-danger'}`} htmlFor="ingredient">Add ingredient</label>
+    //                 </div>
+    //                 <button className="btn recipe-btn-outline" onClick={onClickIngredientHandler} type="button" id="button-addon2">Add ingredient</button>
+    //             </div>
 
-                <div className='ingredient-error'>
-                    <p className="text-danger">{errors.ingredient}</p>
-                </div>
+    //             <div className='ingredient-error'>
+    //                 <p className="text-danger">{errors.ingredient}</p>
+    //             </div>
 
-                <h5>Ingredients</h5>
-                { ingredients.length > 0 
-                    ? <div className="list-ingrediets mb-3">
-                        <ul className="list-group">
-                            {
-                                ingredients.map((ingredientVal, index) =>
-                                    <li key={index} className="list-group-item">
-                                        {ingredientVal}
-                                        <button onClick={(e) => onDeleteIngredient(e, index)} type="button" className="btn-close float-end" aria-label="Close"></button>
-                                    </li>
-                                )
-                            }
+    //             <h5>Ingredients</h5>
+    //             { ingredients.length > 0 
+    //                 ? <div className="list-ingrediets mb-3">
+    //                     <ul className="list-group">
+    //                         {
+    //                             ingredients.map((ingredientVal, index) =>
+    //                                 <li key={index} className="list-group-item">
+    //                                     {ingredientVal}
+    //                                     <button onClick={(e) => onDeleteIngredient(e, index)} type="button" className="btn-close float-end" aria-label="Close"></button>
+    //                                 </li>
+    //                             )
+    //                         }
                             
-                        </ul>
-                    </div>
-                    : <p>No ingredients yet!</p>
-                }
+    //                     </ul>
+    //                 </div>
+    //                 : <p>No ingredients yet!</p>
+    //             }
                 
-                <div className="input-group mb-3">
-                    <div className="form-floating flex-grow-1">
-                        <input type="text" className={`form-control ${errors.step && 'is-invalid'}`} placeholder="Mix the ingredients" onChange={onChangeStepHandler} value={step}/>
-                        <label className={`${errors.step && 'text-danger'}`} htmlFor="step">Add step</label>
-                    </div>
-                    <button className="btn recipe-btn-outline" onClick={onClickStepHandler} type="button" id="button-addon2">Add step</button>
-                </div>
+    //             <div className="input-group mb-3">
+    //                 <div className="form-floating flex-grow-1">
+    //                     <input type="text" className={`form-control ${errors.step && 'is-invalid'}`} placeholder="Mix the ingredients" onChange={onChangeStepHandler} value={step}/>
+    //                     <label className={`${errors.step && 'text-danger'}`} htmlFor="step">Add step</label>
+    //                 </div>
+    //                 <button className="btn recipe-btn-outline" onClick={onClickStepHandler} type="button" id="button-addon2">Add step</button>
+    //             </div>
 
-                <div className='step-error'>
-                    <p className="text-danger">{errors.step}</p>
-                </div>
+    //             <div className='step-error'>
+    //                 <p className="text-danger">{errors.step}</p>
+    //             </div>
 
-                <h5>Steps</h5>
-                { steps.length > 0 
-                    ? <div className="list-ingrediets mb-3">
-                        <ul className="list-group">
-                            {
-                                steps.map((stepVal, index) => 
+    //             <h5>Steps</h5>
+    //             { steps.length > 0 
+    //                 ? <div className="list-ingrediets mb-3">
+    //                     <ul className="list-group">
+    //                         {
+    //                             steps.map((stepVal, index) => 
                            
-                                        <li key={index} className="list-group-item">
-                                            {stepVal}
-                                            <button onClick={(e) => onDeleteStep(e, index)} type="button" className="btn-close float-end" aria-label="Close"></button>
-                                        </li>
+    //                                     <li key={index} className="list-group-item">
+    //                                         {stepVal}
+    //                                         <button onClick={(e) => onDeleteStep(e, index)} type="button" className="btn-close float-end" aria-label="Close"></button>
+    //                                     </li>
                                         
-                                )
-                            }
+    //                             )
+    //                         }
                             
-                        </ul>
-                    </div>
-                    : <p>No steps yet!</p>
-                }
+    //                     </ul>
+    //                 </div>
+    //                 : <p>No steps yet!</p>
+    //             }
 
-                <div className="form-floating mb-3">
-                    <input type="text" className="form-control" id="author" name="author" placeholder="Pesho" defaultValue={recipe.author}/>
-                    <label htmlFor="author">Author</label>
-                </div>
+    //             <div className="form-floating mb-3">
+    //                 <input type="text" className="form-control" id="author" name="author" placeholder="Pesho" defaultValue={recipe.author}/>
+    //                 <label htmlFor="author">Author</label>
+    //             </div>
 
-                <button type="submit" className="btn recipe-btn">Save</button>
-            </form>
-        </section>
+    //             <button type="submit" className="btn recipe-btn">Save</button>
+    //         </form>
+    //     </section>
+    // );
+    return (
+        <>
+        </>
     );
 }

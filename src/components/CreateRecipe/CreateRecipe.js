@@ -3,73 +3,97 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../contexts/AuthContext';
 import * as recipeService from '../../services/recipeService';
-import * as CreateRecipeHelper from '../RecipeHelper';
+import validate from '../RecipeValidationHelper';
+import useForm from "../../hooks/useForm";
 
 import './CreateRecipe.css';
 
+const initialFormValues = {
+    name: '',
+    desc: '',
+    imgUrl: '',
+    ingredient: '',
+    step: ''
+};
+
+const initialLocalValues = {
+    ingredient: false,
+    step: false
+};
+
 export default function CreateRecipe() 
 {
+    const { user } = useAuth();
+    const navigate = useNavigate();
     const [ingredients, setIngredients] = useState([]);
     const [ingredient, setIngredient] = useState('');
     const [steps, setSteps] = useState([]);
     const [step, setStep] = useState('');
-    const [errors, setErrors] = useState({
-        name: false,
-        desc: false,
-        imgUrl: false,
-        ingredient: false,
-        step: false
-    });
+    const [localErrors, setlocalErrors] = useState(initialLocalValues);
 
-    const { user } = useAuth();
-    const navigate = useNavigate();
-
-    const onRecipeCreate = (e) => {
-        e.preventDefault();
+    const createRecipeApi = (e) => {
         
-        let formData = new FormData(e.currentTarget);
+        let formData = new FormData(e.target);
         let name            = formData.get('name');
         let description     = formData.get('desc');
-        let imageUrl        = formData.get('img');
+        let imageUrl        = formData.get('imgUrl');
         let author          = formData.get('author');
 
-        let isValid = Object.values(errors).every((error) => error === false);
-       
-        if(isValid)
-        {
-            recipeService.create({
-                name,
-                desc: description,
-                img: imageUrl,
-                ingredients,
-                steps,
-                author
-            }, user.accessToken)
-                .then(result => {
-                    navigate('/');
-            });
-        }
+        recipeService.create({
+            name,
+            desc: description,
+            img: imageUrl,
+            ingredients,
+            steps,
+            author
+        }, user.accessToken)
+            .then(result => {
+                navigate('/');
+        });
 
     }
 
+    const {
+        onChangeHandler,
+        onSubmitHandler,
+        errors,
+    } = useForm(createRecipeApi, validate, initialFormValues);
+
     function onChangeIngredientHandler(e) {
-        let ingredientValue = e.target.value;        
+        let ingredientValue = e.target.value;
         setIngredient(ingredientValue);
     }
 
     function onClickIngredientHandler() {
 
-        if(ingredient.length >= 4){
-            setErrors(errors => ({...errors, ingredient: false}));
-            setIngredients(oldIngredients => [...oldIngredients, ingredient]);
+        let error = false;
+
+        if (ingredient.length === 0) {
+            console.log(1);
+            error = 'This field is required!';
+        }
+        else if (ingredient.length < 3) {
+            console.log(2);
+            error = 'Your name sould be at least 3 characters!';
+        }
+
+        if(error.length > 0){
+            setlocalErrors(localErrors => ({ ...localErrors, ingredient: error}));
+            console.log(localErrors);
         }
         else{
-            let errorMsg = CreateRecipeHelper.ingredientValidation(ingredient);
-            setErrors(errors => ({...errors, ingredient: errorMsg}));
+            setIngredients(oldIngredients => [...oldIngredients, ingredient]);
+
+            setIngredient('');
+            setlocalErrors(localErrors => ({ ...localErrors, ingredient: ''}));
         }
 
-        setIngredient('');
+       
+    }
 
+    function onDeleteIngredient(e, id){
+        e.stopPropagation();
+        setIngredients(oldIngredients => oldIngredients.filter((ingredient, index) => index !== id))
     }
 
     function onChangeStepHandler(e) {
@@ -79,44 +103,36 @@ export default function CreateRecipe()
 
     function onClickStepHandler() {
 
-        if(step.length >= 4){
-            setErrors(errors => ({...errors, step: false}));
-            setSteps(oldSteps => [...oldSteps, step]);
+        let error = false;
+
+        if (step.length === 0) {
+            error = 'This field is required!';
+        }
+        else if (step.length < 3) {
+            error = 'Your name sould be at least 3 characters!';
+        }
+
+        if(error.length > 0){
+            setlocalErrors(localErrors => ({ ...localErrors, step: error}));
         }
         else{
-            let errorMsg = CreateRecipeHelper.stepValidation(step);
-            setErrors(errors => ({...errors, step: errorMsg}));
+            setSteps(oldSteps => [...oldSteps, step]);
+
+            setStep('');
+            setlocalErrors(localErrors => ({ ...localErrors, step: ''}));
         }
-        
-        setStep('');
     }
 
-    const nameOnChangeHandler = (e) => {
-        let currentName = e.target.value;
-        let errorMsg = CreateRecipeHelper.nameValidation(currentName);
-
-        setErrors(errors => ({...errors, name: errorMsg}))
-    };
-
-    const descriptiOnChangeHandler = (e) => {
-        let currentDesc = e.target.value;
-        let errorMsg = CreateRecipeHelper.descriptionValidation(currentDesc);
-
-        setErrors(errors => ({...errors, desc: errorMsg}))
-    };
-
-    const imgUrlOnChangeHandler = (e) => {
-        let imgUrl = e.target.value;
-        let errorMsg = CreateRecipeHelper.imgUrlValidation(imgUrl);
-
-        setErrors(errors => ({...errors, imgUrl: errorMsg}))
-    };
-
+    function onDeleteStep(e, id){
+        e.stopPropagation();
+        setSteps(oldSteps => oldSteps.filter((step, index) => index !== id))
+    }
+    
     return (
         <section className="add-recipe-page">
             <h5>Add recipe</h5>
             
-            <form onSubmit={onRecipeCreate}>
+            <form onSubmit={onSubmitHandler}>
                 <div className="form-floating mb-3">
                     <input 
                         type="text" 
@@ -124,35 +140,54 @@ export default function CreateRecipe()
                         id="name" 
                         name="name" 
                         placeholder="spaghetti bolognese" 
-                        onChange={nameOnChangeHandler}
-                        required
+                        onChange={onChangeHandler}
                     />
                     <label className={`${errors.name && 'text-danger'}`} htmlFor="name">Recipe Name</label>
                     <p className="text-danger">{errors.name}</p>
                 </div>
 
-                <div className="form-floating mb-3">
-                    <textarea className={`form-control ${errors.desc && 'is-invalid'}`} name="desc" id="desc" onChange={descriptiOnChangeHandler} placeholder='description' required></textarea>
+                 <div className="form-floating mb-3">
+                    <textarea 
+                        className={`form-control ${errors.desc && 'is-invalid'}`} 
+                        name="desc" 
+                        id="desc" 
+                        onChange={onChangeHandler} 
+                        placeholder='description'
+                    >
+                    </textarea>
                     <label className={`${errors.desc && 'text-danger'}`} htmlFor="desc">Description</label>
                     <p className="text-danger">{errors.desc}</p>
                 </div>
 
                 <div className="form-floating mb-3">
-                    <input type="text" className={`form-control ${errors.imgUrl && 'is-invalid'}`} id="img" name="img" onChange={imgUrlOnChangeHandler} placeholder='imgUrl' required/>
+                    <input 
+                        type="text" 
+                        className={`form-control ${errors.imgUrl && 'is-invalid'}`} 
+                        id="img" 
+                        name="imgUrl" 
+                        onChange={onChangeHandler} 
+                        placeholder='imgUrl'
+                    />
                     <label className={`${errors.imgUrl && 'text-danger'}`}  htmlFor="img">Image Url</label>
                     <p className="text-danger">{errors.imgUrl}</p>
                 </div>
 
                 <div className="input-group mb-3">
                     <div className="form-floating flex-grow-1">
-                        <input type="text" className={`form-control ${errors.ingredient && 'is-invalid'}`} placeholder="500 g Ingredient 1" onChange={onChangeIngredientHandler} value={ingredient}/>
-                        <label className={`${errors.v && 'text-danger'}`} htmlFor="ingredient">Add ingredient</label>
+                        <input 
+                            type="text" 
+                            className={`form-control ${localErrors.ingredient && 'is-invalid'}`} 
+                            placeholder="500 g Ingredient 1" 
+                            onChange={onChangeIngredientHandler}
+                            value={ingredient}
+                        />
+                        <label className={`${localErrors.ingredient && 'text-danger'}`} htmlFor="ingredient">Add ingredient</label>
                     </div>
                     <button className="btn recipe-btn-outline" onClick={onClickIngredientHandler} type="button" id="button-addon2">Add ingredient</button>
                 </div>
 
                 <div className='ingredient-error'>
-                    <p className="text-danger">{errors.ingredient}</p>
+                    <p className="text-danger">{localErrors.ingredient}</p>
                 </div>
 
                 <h5>Ingredients</h5>
@@ -161,7 +196,10 @@ export default function CreateRecipe()
                         <ul className="list-group">
                             {
                                 ingredients.map((ingredientVal, index) =>
-                                    <li key={index} className="list-group-item">{ingredientVal}</li>
+                                    <li key={index} className="list-group-item">
+                                        {ingredientVal}
+                                        <button onClick={(e) => onDeleteIngredient(e, index)} type="button" className="btn-close float-end" aria-label="Close"></button>
+                                    </li>  
                                 )
                             }
                             
@@ -172,14 +210,21 @@ export default function CreateRecipe()
                 
                 <div className="input-group mb-3">
                     <div className="form-floating flex-grow-1">
-                        <input type="text" className={`form-control ${errors.step && 'is-invalid'}`} placeholder="Mix the ingredients" onChange={onChangeStepHandler} value={step}/>
-                        <label className={`${errors.step && 'text-danger'}`} htmlFor="step">Add step</label>
+                        <input 
+                            type="text" 
+                            className={`form-control ${localErrors.step && 'is-invalid'}`} 
+                            placeholder="Mix the ingredients" 
+                            name="step" 
+                            onChange={onChangeStepHandler} 
+                            value={step}
+                        />
+                        <label className={`${localErrors.step && 'text-danger'}`} htmlFor="step">Add step</label>
                     </div>
                     <button className="btn recipe-btn-outline" onClick={onClickStepHandler} type="button" id="button-addon2">Add step</button>
                 </div>
 
                 <div className='step-error'>
-                    <p className="text-danger">{errors.step}</p>
+                    <p className="text-danger">{localErrors.step}</p>
                 </div>
 
                 <h5>Steps</h5>
@@ -188,7 +233,10 @@ export default function CreateRecipe()
                         <ul className="list-group">
                             {
                                 steps.map((stepVal, index) =>
-                                    <li key={index} className="list-group-item">{stepVal}</li>
+                                    <li key={index} className="list-group-item">
+                                        {stepVal}
+                                        <button onClick={(e) => onDeleteStep(e, index)} type="button" className="btn-close float-end" aria-label="Close"></button>
+                                    </li>
                                 )
                             }
                             
