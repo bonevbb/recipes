@@ -28,7 +28,7 @@ export default function CatalogCard({
                     <div>
                         <div className="float-start">
                             <p className="card-text">
-                            <small className="text-muted">Аuthor: <span>{recipe.author.length === 0 ? 'Anonymous' : recipe.author}</span></small>
+                            <small className="text-muted">Аuthor: <span>{!recipe.author || recipe.author.length === 0 ? 'Anonymous' : recipe.author}</span></small>
                             </p>
                         </div>
                         {/* <div className="recipe-likes float-end text-color">

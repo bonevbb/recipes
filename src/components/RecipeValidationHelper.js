@@ -24,18 +24,6 @@ export default function validate(values)
         errors.desc = 'Your description should be max 255 characters!';
     }
 
-    //validate imgUrl (imgUrl)
-    let arr = [ "jpeg", "jpg", "gif", "png" ];
-    let imgUrl = values.imgUrl;
-    let ext = imgUrl.substring(imgUrl.lastIndexOf(".")+1);
-
-    if (imgUrl.length === 0) {
-        errors.imgUrl = 'This field is required!';
-    }
-    else if(!arr.includes(ext)){
-        errors.imgUrl = 'Invalid an image extension!';
-    }
-
     return errors;
 
 }
