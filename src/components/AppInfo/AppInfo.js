@@ -18,7 +18,7 @@ export default function AppInfo(){
                 }}>
                     <p className="fs-5 mb-4">
                     The best recipes from the best hobby chefs from around the world in one place! 
-                    Always delicious, always beautiful and very healthy!
+                    Always delicious, always beautiful and healthy!
                     </p>
                 </div>
             </div>
