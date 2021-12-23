@@ -81,15 +81,16 @@ export default function RecipeDetails()
                             <img src={recipe.img ? recipe.img : 'https://via.placeholder.com/400'} className="card-img-top" alt="..." style={{width: "400px"}}/>
                         </div>
                         <div className="col-lg-4">
-                            <h5>Info</h5>
-                            <ul className="list-group">
+                            <h5>Description</h5>
+                            <p>{recipe.desc}</p>
+                            {/* <ul className="list-group">
                             
                                 <li className="list-group-item">Preparation: <span>15 mins</span></li>
                                 <li className="list-group-item">Cook: <span>2 hours</span></li>
                                 <li className="list-group-item">Total: <span>2 hours 15 mins</span></li>
                                 <li className="list-group-item">Servings: <span>5</span></li>
                                 <li className="list-group-item">Yield: <span>6 servings</span></li>
-                            </ul>
+                            </ul> */}
                         </div> 
                         <div className="col-lg-4">
                             <h5>Ingredients</h5>
