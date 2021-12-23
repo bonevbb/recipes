@@ -77,23 +77,19 @@ export default function RecipeDetails()
                 <div className="card-body">
                     <div className="row">
                         <h2>{recipe.name}</h2>
-                        <div className="col-lg-4">
-                            <img src={recipe.img ? recipe.img : 'https://via.placeholder.com/400'} className="card-img-top" alt="..." style={{width: "400px"}}/>
+                        <hr/>
+                        <div className="col-lg-5">
+                            <img src={recipe.img ? recipe.img : 'https://via.placeholder.com/400'} className="card-img-big" alt="..." />
                         </div>
-                        <div className="col-lg-4">
+                        <div className="col-lg-7">
                             <h5>Description</h5>
+                            <hr/>
                             <p>{recipe.desc}</p>
-                            {/* <ul className="list-group">
-                            
-                                <li className="list-group-item">Preparation: <span>15 mins</span></li>
-                                <li className="list-group-item">Cook: <span>2 hours</span></li>
-                                <li className="list-group-item">Total: <span>2 hours 15 mins</span></li>
-                                <li className="list-group-item">Servings: <span>5</span></li>
-                                <li className="list-group-item">Yield: <span>6 servings</span></li>
-                            </ul> */}
                         </div> 
-                        <div className="col-lg-4">
+                        <div className="col-lg-6 mt-2">
+                            <hr/>
                             <h5>Ingredients</h5>
+                            <hr/>
                             
                             <ul className="list-group">
                                 {recipe.ingredients && recipe.ingredients.map((ingredient, index) => ( 
@@ -107,7 +103,7 @@ export default function RecipeDetails()
                             </ul>
                         </div>
 
-                        <div className="col-lg-12 mt-2">
+                        <div className="col-lg-6 mt-2">
                             <hr/>
                             <h5>Steps</h5>
                             <hr/>

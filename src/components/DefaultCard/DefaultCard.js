@@ -10,7 +10,7 @@ export default function HomeCard({
             <div className="card h-100 recipe-card">
 
                 <Link to={`/details/${recipe._id}`}>
-                    <img src={recipe.img ? recipe.img : 'https://via.placeholder.com/240'} className="card-img-top" alt="..."/>
+                    <img src={recipe.img ? recipe.img : 'https://via.placeholder.com/240'} className="card-img-small" alt="..."/>
                 </Link>
                 
                 <div className="card-body">

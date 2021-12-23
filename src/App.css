@@ -55,3 +55,15 @@
 .text-align-right{
     text-align: 'right' !important
 }
+
+.card-img-small 
+{
+    width: 238px;
+    height: 238px;
+}
+
+.card-img-big 
+{
+    width: 500px;
+    height: 500px;
+}
